@@ -1,0 +1,63 @@
+disease_name,evidence_layers,evidence_layer_count
+Acute diarrhoea,who_don_modelling_ready,1
+Acute encephalitis syndrome due to Chandipura virus,who_don_modelling_ready,1
+Acute febrile illness,who_don_modelling_ready,1
+Acute fever and rash syndrome,who_don_modelling_ready,1
+Acute haemorrhagic fever syndrome,who_don_modelling_ready,1
+Acute respiratory infection,who_don_modelling_ready,1
+Acute respiratory syndrome,who_don_modelling_ready,1
+Acute watery diarrhoea,who_don_modelling_ready,1
+Bloody diarrhoea,who_don_modelling_ready,1
+Buffalopox,who_don_modelling_ready,1
+Chikungunya,who_don_modelling_ready,1
+Cholera,who_don_modelling_ready,1
+Circulating vaccine-derived poliovirus type 1,who_don_modelling_ready,1
+Circulating vaccine-derived poliovirus type 2,who_don_modelling_ready,1
+Diarrhoeal disease,who_don_modelling_ready,1
+Diphtheria,who_don_modelling_ready,1
+Dracunculiasis,who_don_modelling_ready,1
+Dysentery,who_don_modelling_ready,1
+Encephalitis,who_don_modelling_ready,1
+Enterovirus D68 respiratory disease,who_don_modelling_ready,1
+Enterovirus infection,who_don_modelling_ready,1
+Enterovirus-Echovirus 11 infection,who_don_modelling_ready,1
+HIV,who_don_modelling_ready,1
+Haemorrhagic fever syndrome,who_don_modelling_ready,1
+Hand foot and mouth disease,who_don_modelling_ready,1
+Hantavirus disease,who_don_modelling_ready,1
+Hantavirus pulmonary syndrome; Sin Nombre,genbank_disease_country_summary,1
+Hepatitis A,who_don_modelling_ready,1
+Influenza,who_don_modelling_ready,1
+Influenza (H1N1),who_don_modelling_ready,1
+Influenza (H1N2),who_don_modelling_ready,1
+Influenza (H3N2),who_don_modelling_ready,1
+Influenza (H5N1),who_don_modelling_ready,1
+Influenza (H7N9),who_don_modelling_ready,1
+Influenza A(H5N1),who_don_modelling_ready,1
+Influenza A(H5N6),who_don_modelling_ready,1
+Influenza A(H7N9),who_don_modelling_ready,1
+Influenza A(H9N2),who_don_modelling_ready,1
+Legionellosis,who_don_modelling_ready,1
+Leptospirosis,who_don_modelling_ready,1
+Listeriosis,who_don_modelling_ready,1
+Louse-borne typhus,who_don_modelling_ready,1
+Malaria,who_don_modelling_ready,1
+Measles,who_don_modelling_ready,1
+Meningococcal disease,who_don_modelling_ready,1
+Microcephaly,who_don_modelling_ready,1
+Pertussis,who_don_modelling_ready,1
+Pneumonia of unknown cause,who_don_modelling_ready,1
+Poliomyelitis,who_don_modelling_ready,1
+Respiratory illness,who_don_modelling_ready,1
+Salmonellosis,who_don_modelling_ready,1
+Scarlet fever,who_don_modelling_ready,1
+Severe Acute Respiratory Syndrome (SARS),who_don_modelling_ready,1
+Severe acute hepatitis of unknown aetiology,who_don_modelling_ready,1
+Shigellosis (bacillary dysentery),who_don_modelling_ready,1
+Suspected fungal meningitis,who_don_modelling_ready,1
+Typhoid fever,who_don_modelling_ready,1
+Undiagnosed febrile illness,who_don_modelling_ready,1
+Unknown illness,who_don_modelling_ready,1
+Vaccine-derived poliovirus,who_don_modelling_ready,1
+Western equine encephalitis,who_don_modelling_ready,1
+Wild poliovirus,who_don_modelling_ready,1

@@ -1,0 +1,244 @@
+# -----------------------------------------------------------------------------|
+# 3_3_Host_Species_Clean.R ----
+# -----------------------------------------------------------------------------|
+# Purpose: Standardize VIRION host species names and taxonomy for downstream
+#          WHO pathogen-host network assembly.
+# Inputs : who_pathogens_virion_hosts_summary.csv
+# Outputs: who_host_species_standardized.csv
+# -----------------------------------------------------------------------------|
+
+# -----------------------------------------------------------------------------|
+# 1. Load required libraries and helpers ----
+# -----------------------------------------------------------------------------|
+library(pacman)
+p_load(here, rgbif, taxize, raster, dismo, 
+      doParallel, rJava, XML, Hmisc, magrittr, tidyverse)
+
+source(here("scripts", "associations", "working_inputs.R"))
+source(here(
+  "scripts",
+  "associations",
+  "network_building",
+  "helpers",
+  "legacy_who_compatibility_helpers.R"
+))
+
+load(file = "scripts/functions/wrld_simpl2.R")
+source("scripts/New_functions/get_synonyms.R")
+iucn_redlist_key <- Sys.getenv("IUCN_REDLIST_KEY", unset = Sys.getenv("IUCN_API_KEY", unset = ""))
+if (nzchar(iucn_redlist_key)) {
+  options(iucn_redlist_key = iucn_redlist_key)
+}
+
+# -----------------------------------------------------------------------------|
+# 2. Load VIRION host candidates ----
+# -----------------------------------------------------------------------------|
+who_virion_hosts_short = read_csv(file.path(who_virion_dir, "who_pathogens_virion_hosts_summary.csv"))
+
+host_species = who_virion_hosts_short %>%
+  dplyr::select(Host, HostGenus, HostFamily, HostFlagID) %>%
+  mutate(
+    Host = str_to_sentence(Host),
+    HostGenus = str_to_sentence(HostGenus),
+    HostFamily = str_to_sentence(HostFamily)
+  ) %>%
+  distinct()
+
+host_species_list = sort(unique(host_species$Host))
+cat("Found", length(host_species_list), "unique host species to standardize\n")
+
+hosts_ids = who_virion_hosts_short %>% 
+  dplyr::select(Host, HostTaxID) %>%
+  mutate(
+    Host = str_to_sentence(Host)
+  ) %>%
+  distinct() %>% 
+  group_by(Host) %>%
+  summarise(HostTaxID = paste(unique(HostTaxID), collapse = ";"), .groups = "drop")
+
+
+# -----------------------------------------------------------------------------|
+# 3. Retrieve taxonomy and synonyms for each host ----
+# -----------------------------------------------------------------------------|
+species_list = list()
+
+cat("Starting species standardization process...\n")
+
+for (i in 1:length(host_species_list)) {
+    sp = host_species_list[i]
+    cat("Processing species", i, "of", length(host_species_list), ":", sp, "\n")
+    
+    species_list[[i]] = retrieve_syns_new(sp,   # [Character] The species name from which to collect taxonomic information
+                                            n_times=7,  # [Numeric] Number of times the search is repeated until a data is found,default value = 1
+                                            Gbif=TRUE)
+    species_list[[i]]$type = "host"
+    species_list[[i]]$host_species = sp    
+}
+
+# -----------------------------------------------------------------------------|
+# 4. Build one-row-per-species taxonomy table ----
+# -----------------------------------------------------------------------------|
+cat("Creating standardized taxonomic dataframe...\n")
+tax_df <- map_dfr(species_list, function(rec) {
+  
+  ## 1. Summarise TaxDat -----------------------------------------------------
+  td <- rec$TaxDat
+  td_summary <- if (is.null(td) || nrow(td) == 0) {
+    tibble()                       # no extra columns to add
+  } else {
+    td %>% summarise(across(everything(), legacy_who_collapse_vals), .groups = "drop")
+  }
+  
+  ## 2. Scalar + collapsed vectors ------------------------------------------
+  tibble(
+    Submitted_name = rec$Submitted_name,
+    correct_name = rec$correct_name,  # add the correct name to the record
+    type = rec$type,  # add the type of species (host)
+    taxon_level = rec$taxon_level,
+    host_species = rec$host_species,  # add the original host species name
+    Spp_syn        = legacy_who_collapse_vals(rec$Spp_syn),
+    IUCN_spp       = legacy_who_collapse_vals(rec$IUCN_spp)
+  ) %>%
+    bind_cols(td_summary)          # add the TaxDat summary columns
+})
+
+# Prefer curated taxonomy sources in a stable order while preserving source
+# columns for later inspection.
+tax_df$Phylum <- coalesce(tax_df$IUCN_Phylum, 
+                          tax_df$ITIS_Phylum, 
+                          tax_df$GBIF_Phylum)
+tax_df$Class  <- coalesce(tax_df$IUCN_Class,  
+                          tax_df$ITIS_Class,  
+                          tax_df$GBIF_Class)
+tax_df$Order  <- coalesce(tax_df$IUCN_Order,  
+                          tax_df$ITIS_Order,  
+                          tax_df$GBIF_Order)
+tax_df$Family <- coalesce(tax_df$IUCN_Family, 
+                          tax_df$ITIS_Family, 
+                          tax_df$GBIF_Family)
+
+# To get genus, we take first word from correct_name
+tax_df$Genus = sapply(strsplit(as.character(tax_df$correct_name), " "), `[`, 1)
+
+
+tax_df_joined = tax_df %>% 
+  left_join(hosts_ids, by = c("Submitted_name" = "Host")) %>% 
+  rename(Host = Submitted_name) %>%
+  relocate(HostTaxID, .after = Host) %>% 
+  relocate(Genus, Family, Order, Class, Phylum, .after = taxon_level)
+
+for (i in 1:nrow(tax_df_joined)){
+  if(nchar(tax_df_joined$Spp_syn[i]) > 0){
+    tax_df_joined$Spp_syn[i] =  clean_synonyms2(tax_df_joined$Spp_syn[i])}
+}
+
+# -----------------------------------------------------------------------------|
+# 5. Write standardized host taxonomy ----
+# -----------------------------------------------------------------------------|
+output_dir <- who_virion_dir
+dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
+
+output_file <- file.path(output_dir, "who_host_species_standardized.csv")
+write_csv(tax_df_joined, output_file)
+
+cat("Standardization complete!\n")
+cat("Processed", nrow(tax_df), "host species records\n")
+cat("Results saved to:", output_file, "\n")
+
+# -----------------------------------------------------------------------------|
+# 6. Print console summary ----
+# -----------------------------------------------------------------------------|
+cat("\n=== STANDARDIZATION SUMMARY ===\n")
+cat("Total species processed:", length(host_species_list), "\n")
+cat("Records with correct names:", sum(!is.na(tax_df$correct_name)), "\n")
+cat("Success rate:", round(sum(!is.na(tax_df$correct_name)) / nrow(tax_df) * 100, 1), "%\n")
+
+# Taxonomic breakdown
+cat("\nTaxonomic breakdown:\n")
+if (sum(!is.na(tax_df$Phylum)) > 0) {
+  cat("Phyla represented:\n")
+  print(table(tax_df$Phylum, useNA = "ifany"))
+}
+
+if (sum(!is.na(tax_df$Class)) > 0) {
+  cat("\nClasses represented:\n")
+  print(table(tax_df$Class, useNA = "ifany"))
+}
+
+# Species with issues
+problematic_species <- tax_df %>% 
+  filter(is.na(correct_name)) %>%
+  select(Submitted_name, host_species)
+
+if (nrow(problematic_species) > 0) {
+  cat("\nSpecies that could not be standardized:\n")
+  print(problematic_species)
+}
+
+cat("\nProcess completed successfully!\n")
+
+if (interactive()) {
+  # ---------------------------------------------------------------------------|
+  # 7. Build exploratory visualisations for interactive sessions ----
+  # ---------------------------------------------------------------------------|
+  host <- read_csv(file.path(who_virion_dir, "who_host_species_standardized.csv"))
+  host %<>% dplyr::select(Host, correct_name, Genus, Family, Order, Class, Phylum)
+
+  cat("\n=== CREATING TAXONOMY VISUALIZATIONS ===\n")
+
+  host_clean <- host %>%
+    filter(!is.na(correct_name)) %>%
+    mutate(
+      Class = str_to_title(coalesce(Class, "Unknown")),
+      Order = str_to_title(coalesce(Order, "Unknown")),
+      Family = str_to_title(coalesce(Family, "Unknown")),
+      Phylum = str_to_title(coalesce(Phylum, "Unknown"))
+    )
+
+  p1_class_pie <- host_clean %>%
+    count(Class, sort = TRUE) %>%
+    mutate(
+      percentage = round(n / sum(n) * 100, 1),
+      label = paste0(Class, "\n(", n, " species, ", percentage, "%)")
+    ) %>%
+    ggplot(aes(x = "", y = n, fill = Class)) +
+    geom_col(width = 1, color = "white", size = 0.5) +
+    coord_polar("y", start = 0) +
+    scale_fill_brewer(palette = "Set3") +
+    theme_void() +
+    theme(
+      legend.position = "right",
+      plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
+      legend.text = element_text(size = 10)
+    ) +
+    labs(
+      title = "Host Species Distribution by Class",
+      subtitle = paste("Total:", nrow(host_clean), "host species"),
+      fill = "Taxonomic Class"
+    )
+
+  p2_order_bars <- host_clean %>%
+    count(Order, Class, sort = TRUE) %>%
+    slice_head(n = 20) %>%
+    mutate(Order = fct_reorder(Order, n)) %>%
+    ggplot(aes(x = Order, y = n, fill = Class)) +
+    geom_col(alpha = 0.8) +
+    coord_flip() +
+    scale_fill_brewer(palette = "Set2") +
+    theme_minimal() +
+    theme(
+      plot.title = element_text(size = 14, face = "bold"),
+      axis.text = element_text(size = 10),
+      legend.position = "bottom"
+    ) +
+    labs(
+      title = "Top 20 Host Orders by Species Count",
+      subtitle = "Colored by taxonomic class",
+      x = "Taxonomic Order",
+      y = "Number of Species",
+      fill = "Class"
+    )
+
+  print(p1_class_pie)
+  print(p2_order_bars)
+}

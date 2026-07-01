@@ -1,0 +1,10 @@
+Host GBIF occurrence files were moved off the laptop after verification.
+
+Current location:
+/Volumes/LaCie/host_vector_sdm_runner/data/occurrences/host
+
+Use this as the occurrence root for host model batches:
+/Volumes/LaCie/host_vector_sdm_runner/data/occurrences/host
+
+The model-ready host manifest in the runner is:
+/Volumes/LaCie/host_vector_sdm_runner/sdms/runs/host_sdm_push/host_species_sdm_targets_model_ready.csv

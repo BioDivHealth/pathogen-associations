@@ -1,0 +1,32 @@
+disease_name,done,scope,review,hosts,vectors,proxy,source_check,features,last_reviewed,next_step
+Marburg virus disease,TRUE,include,broad,ready,n/a,FALSE,TRUE,TRUE,2026-06-22,done
+Lassa fever,TRUE,include,broad,ready,n/a,FALSE,TRUE,TRUE,2026-06-23,done
+Nipah virus disease,TRUE,include,bounded,ready,n/a,FALSE,TRUE,TRUE,2026-06-23,done
+Hendra,TRUE,include,broad,ready,n/a,FALSE,TRUE,TRUE,2026-06-18,done
+Influenza (H5N1 avian influenza),TRUE,include,done,exact,n/a,broad,TRUE,TRUE,2026-06-22,done
+Plague,TRUE,include,broad,broad,ready,broad,TRUE,TRUE,2026-06-23,done
+Hantavirus pulmonary syndrome,TRUE,include,bounded,ready,n/a,FALSE,TRUE,TRUE,2026-06-22,done
+Dengue,TRUE,include,broad,ready,ready,FALSE,TRUE,TRUE,2026-06-25,done
+Argentine hemorrhagic fever,TRUE,include,broad,ready,n/a,FALSE,TRUE,TRUE,2026-06-23,done
+Tick-borne encephalitis,TRUE,include,broad,ready,ready,TRUE,TRUE,TRUE,2026-06-24,done
+Hepatitis E,TRUE,include,bounded,ready,n/a,FALSE,TRUE,TRUE,2026-06-22,done
+Zika virus disease,TRUE,include,broad,ready,ready,TRUE,TRUE,TRUE,2026-06-25,done
+Chikungunya fever,TRUE,include,broad,ready,ready,FALSE,TRUE,TRUE,2026-06-17,done
+Yellow fever,TRUE,include,broad,ready,ready,TRUE,TRUE,TRUE,2026-06-25,done
+West Nile fever,TRUE,include,broad,ready,ready,TRUE,TRUE,TRUE,2026-06-25,done
+Crimean-Congo hemorrhagic fever,TRUE,include,broad,ready,ready,TRUE,TRUE,TRUE,2026-06-24,done
+Rift Valley fever,TRUE,include,broad,ready,ready,FALSE,TRUE,TRUE,2026-06-24,done
+Ebola virus disease,TRUE,include,broad,ready,n/a,FALSE,TRUE,TRUE,2026-06-23,done
+Influenza (H7N9 avian influenza),TRUE,include,done,exact,n/a,broad,FALSE,TRUE,2026-06-22,done
+Hemorrhagic fever with renal syndrome (Hantaan virus),TRUE,include,bounded,ready,n/a,FALSE,TRUE,TRUE,2026-06-22,done
+Mpox (Monkeypox),FALSE,review,broad,ready,n/a,FALSE,TRUE,TRUE,,revisit
+Oropouche fever,FALSE,review,broad,ready,ready,FALSE,TRUE,TRUE,,revisit
+Severe fever with thrombocytopenia syndrome (SFTS),FALSE,review,broad,ready,ready,FALSE,TRUE,TRUE,,revisit
+Venezuelan equine encephalitis,FALSE,review,broad,ready,ready,FALSE,TRUE,TRUE,,revisit
+Borna disease (encephalitis),FALSE,review,none,none,n/a,FALSE,FALSE,TRUE,,review
+Middle East Respiratory Syndrome (MERS),FALSE,defer,none,none,n/a,FALSE,FALSE,FALSE,,defer
+Severe Acute Respiratory Syndrome (SARS); COVID-19,FALSE,defer,none,none,n/a,FALSE,FALSE,FALSE,,defer
+Lujo hemorrhagic fever,FALSE,defer,none,none,n/a,FALSE,FALSE,TRUE,,review
+Non-typhoidal salmonellosis,FALSE,defer,none,none,n/a,FALSE,FALSE,FALSE,,defer
+Reovirus infection (usually mild),FALSE,defer,none,none,n/a,FALSE,FALSE,FALSE,,defer
+Sudan virus disease (Ebola virus disease),FALSE,defer,broad,ready,n/a,FALSE,TRUE,TRUE,,revisit

@@ -1,0 +1,367 @@
+# ------------------------------------------------------------------------------
+# 4_2_Combine_WHO_Master_Host_Network.R
+# ------------------------------------------------------------------------------
+# Purpose: Append the WHO host network and disease-master host network into one
+#          downstream-ready host table without dropping review evidence rows.
+#
+# Inputs : WHO network helper path for combined_who_network.csv
+#          WHO network helper path for combined_who_network_canonical_zoonotic.csv
+#          who_master_pathogen_host_species_clean_path()
+#          who_master_plus_analysis_units_path()
+#
+# Output: WHO host-pathogen network helper path for master_plus_who_host_network.csv
+# ------------------------------------------------------------------------------
+
+library(tidyverse)
+library(here)
+
+source(here("scripts", "associations", "working_inputs.R"))
+source(here(
+  "scripts",
+  "associations",
+  "network_building",
+  "helpers",
+  "master_plus_host_network_helpers.R"
+))
+
+who_network_path <- who_raw_network_path()
+master_host_path <- who_master_pathogen_host_species_clean_path()
+analysis_units_path <- who_master_plus_analysis_units_path()
+who_keep_path <- who_pathogen_analysis_units_keep_path()
+legacy_network_path <- who_canonical_zoonotic_network_path()
+taxonomy_reference_path <- who_network_host_pathogen_path("Species_Taxonomy2025-12-16.csv")
+virion_taxonomy_path <- file.path(virion_source_version_dir, "virion.csv.gz")
+combined_output_path <- who_network_host_pathogen_path("master_plus_who_host_network.csv")
+
+common_columns <- c(
+  "Pathogen",
+  "PathogenTaxID",
+  "PHEIC risk",
+  "Disease_name",
+  "HostTaxID",
+  "Host",
+  "PathogenClass",
+  "PathogenOrder",
+  "PathogenFamily",
+  "PathogenGenus",
+  "HostPhylum",
+  "HostClass",
+  "HostFamily",
+  "HostOrder",
+  "DetectionMethod",
+  "high_quality_detection",
+  "downstream_default_include",
+  "downstream_review_reason",
+  "MainSource",
+  "PathogenType",
+  "in_gibb_etal",
+  "in_empres_i",
+  "modelling_scope_status",
+  "modelling_scope_reason",
+  "Host_raw",
+  "host_name_cleaning_method",
+  "source_database",
+  "source_assoc_id",
+  "source_host_flag_id",
+  "host_taxonomy_ready",
+  "host_taxonomy_flag",
+  "is_human_host",
+  "is_model_or_lab_host",
+  "is_domestic_or_livestock_hint"
+)
+
+provenance_columns <- c(
+  "host_network_source",
+  "source_table",
+  "possible_cross_source_duplicate_flag"
+)
+
+legacy_compatibility_columns <- c(
+  "in_legacy_canonical_zoonotic_pathogen_host",
+  "Pathogen_raw_examples",
+  "Disease_name_raw_examples",
+  "is_zoonotic",
+  "zoonotic_status",
+  "canonicalization_status"
+)
+
+required_common <- c(
+  "Pathogen",
+  "PathogenTaxID",
+  "Disease_name",
+  "HostTaxID",
+  "Host",
+  "DetectionMethod",
+  "MainSource",
+  "high_quality_detection",
+  "downstream_default_include"
+)
+
+master_audit_only_columns <- c(
+  "host_query_include_default",
+  "match_method",
+  "host_query_pathogen_names",
+  "host_query_taxids",
+  "all_method_host_count_for_analysis_unit"
+)
+
+broad_source_pathogens <- c(
+  "Genus Vesiculovirus",
+  "Subgenus Merbecovirus",
+  "Subgenus Sarbecovirus"
+)
+
+required_paths <- c(
+  who_network_path,
+  master_host_path,
+  analysis_units_path,
+  who_keep_path,
+  legacy_network_path
+)
+missing_paths <- required_paths[!file.exists(required_paths)]
+if (length(missing_paths) > 0) {
+  stop("Missing required input files: ", paste(missing_paths, collapse = "; "))
+}
+
+analysis_units <- read_csv(analysis_units_path, show_col_types = FALSE, na = c("", "NA")) %>%
+  mutate(across(where(is.character), host_network_clean_text))
+
+who_keep_units <- read_csv(who_keep_path, show_col_types = FALSE, na = c("", "NA")) %>%
+  mutate(across(where(is.character), host_network_clean_text)) %>%
+  mutate(
+    modelling_scope_status = case_when(
+      source_pathogen %in% broad_source_pathogens ~ "defer_broad_or_aggregate_unit",
+      TRUE ~ "include"
+    ),
+    modelling_scope_reason = case_when(
+      source_pathogen %in% broad_source_pathogens ~ paste0(
+        "Source pathogen ", source_pathogen,
+        " is a broad genus/subgenus scope that has been deferred in later role/modelling work; retain WHO rows for audit only."
+      ),
+      TRUE ~ "Included because this WHO-only host-network row is present in who_pathogen_analysis_units_keep.csv and has no stricter manual master-plus scope."
+    )
+  )
+
+legacy_lookup <- read_csv(legacy_network_path, show_col_types = FALSE, na = c("", "NA")) %>%
+  mutate(
+    across(where(is.character), host_network_clean_text),
+    PathogenTaxID = host_network_clean_text(PathogenTaxID),
+    HostTaxID = host_network_clean_text(HostTaxID),
+    legacy_association_key = host_network_association_key(.)
+  ) %>%
+  filter(!is.na(legacy_association_key)) %>%
+  group_by(legacy_association_key) %>%
+  summarise(
+    in_legacy_canonical_zoonotic_pathogen_host = TRUE,
+    Pathogen_raw_examples = host_network_collapse_unique(Pathogen_raw_examples),
+    Disease_name_raw_examples = host_network_collapse_unique(Disease_name_raw_examples),
+    is_zoonotic = host_network_collapse_true_flag(is_zoonotic),
+    zoonotic_status = host_network_collapse_unique(zoonotic_status),
+    canonicalization_status = host_network_collapse_unique(canonicalization_status),
+    .groups = "drop"
+  )
+
+scope_by_analysis_unit_id <- analysis_units %>%
+  filter(!is.na(analysis_unit_id)) %>%
+  transmute(
+    analysis_unit_id,
+    modelling_scope_status,
+    modelling_scope_reason
+  ) %>%
+  distinct(analysis_unit_id, .keep_all = TRUE)
+
+scope_by_who_key <- bind_rows(
+  host_network_make_scope_aliases(analysis_units, 1L),
+  host_network_make_scope_aliases(who_keep_units, 2L)
+) %>%
+  filter(!is.na(disease_key), !is.na(pathogen_key)) %>%
+  arrange(scope_priority) %>%
+  distinct(disease_key, pathogen_key, .keep_all = TRUE) %>%
+  select(-scope_priority)
+
+scope_by_who_disease <- bind_rows(
+  analysis_units %>%
+    transmute(
+      scope_priority = 1L,
+      disease_key = host_network_clean_key(source_disease_name),
+      modelling_scope_status,
+      modelling_scope_reason
+    ),
+  who_keep_units %>%
+    transmute(
+      scope_priority = 2L,
+      disease_key = host_network_clean_key(source_disease_name),
+      modelling_scope_status,
+      modelling_scope_reason
+    )
+) %>%
+  filter(!is.na(disease_key), !is.na(modelling_scope_status)) %>%
+  group_by(disease_key) %>%
+  arrange(scope_priority, .by_group = TRUE) %>%
+  summarise(
+    modelling_scope_status = if_else(
+      n_distinct(modelling_scope_status) == 1,
+      first(modelling_scope_status),
+      "review_before_modelling"
+    ),
+    modelling_scope_reason = if_else(
+      n_distinct(modelling_scope_status) == 1,
+      first(modelling_scope_reason),
+      "Disease has multiple analysis-unit scope statuses; review before using as a default modelling row."
+    ),
+    .groups = "drop"
+  )
+
+who_network <- host_network_read_source_network(
+  who_network_path,
+  host_network_source = "who",
+  source_table = "combined_who_network.csv",
+  required_common = required_common
+) %>%
+  mutate(
+    disease_key = host_network_clean_key(Disease_name),
+    pathogen_key = host_network_clean_key(Pathogen)
+  ) %>%
+  left_join(scope_by_who_key, by = c("disease_key", "pathogen_key")) %>%
+  left_join(
+    scope_by_who_disease,
+    by = "disease_key",
+    suffix = c("", "_disease")
+  ) %>%
+  mutate(
+    modelling_scope_status = coalesce(
+      modelling_scope_status,
+      modelling_scope_status_disease,
+      "include"
+    ),
+    modelling_scope_reason = coalesce(
+      modelling_scope_reason,
+      modelling_scope_reason_disease,
+      "Included as a legacy WHO host-network row with no explicit master-plus disease scope match."
+    )
+  ) %>%
+  select(
+    -disease_key,
+    -pathogen_key,
+    -ends_with("_disease")
+  )
+
+master_network <- host_network_read_source_network(
+  master_host_path,
+  host_network_source = "master",
+  source_table = "master_pathogen_host_species_clean.csv",
+  required_common = required_common
+) %>%
+  select(-any_of(c("modelling_scope_status", "modelling_scope_reason"))) %>%
+  left_join(scope_by_analysis_unit_id, by = "analysis_unit_id")
+
+all_columns <- unique(c(
+  common_columns,
+  provenance_columns,
+  setdiff(names(master_network), c(common_columns, provenance_columns, master_audit_only_columns)),
+  setdiff(names(who_network), c(common_columns, provenance_columns, master_audit_only_columns))
+))
+
+combined_network <- bind_rows(
+  host_network_add_missing_columns(who_network, all_columns),
+  host_network_add_missing_columns(master_network, all_columns)
+) %>%
+  group_by(Disease_name, PathogenTaxID, HostTaxID, DetectionMethod, MainSource) %>%
+  mutate(
+    possible_cross_source_duplicate_flag = n_distinct(host_network_source) > 1
+  ) %>%
+  ungroup() %>%
+  select(all_of(all_columns))
+
+combined_network_with_legacy <- combined_network %>%
+  mutate(legacy_association_key = host_network_association_key(.)) %>%
+  left_join(legacy_lookup, by = "legacy_association_key") %>%
+  mutate(
+    in_legacy_canonical_zoonotic_pathogen_host = coalesce(
+      in_legacy_canonical_zoonotic_pathogen_host,
+      FALSE
+    )
+  )
+
+legacy_keys_missing <- setdiff(
+  legacy_lookup$legacy_association_key,
+  unique(combined_network_with_legacy$legacy_association_key)
+)
+
+legacy_key_count <- nrow(legacy_lookup)
+legacy_unique_keys_covered <- n_distinct(
+  combined_network_with_legacy$legacy_association_key[
+    combined_network_with_legacy$in_legacy_canonical_zoonotic_pathogen_host
+  ]
+)
+legacy_flagged_row_count <- sum(
+  combined_network_with_legacy$in_legacy_canonical_zoonotic_pathogen_host
+)
+
+if (length(legacy_keys_missing) > 0) {
+  stop(
+    "Master-plus host network is missing legacy canonical zoonotic association keys: ",
+    paste(head(legacy_keys_missing, 20), collapse = "; ")
+  )
+}
+
+if (legacy_key_count != 3072L) {
+  stop("Unexpected legacy canonical zoonotic association key count: ", legacy_key_count)
+}
+
+if (legacy_unique_keys_covered != legacy_key_count) {
+  stop(
+    "Legacy canonical zoonotic association keys covered mismatch: ",
+    legacy_unique_keys_covered,
+    " of ",
+    legacy_key_count
+  )
+}
+
+if (legacy_flagged_row_count != 3514L) {
+  stop("Unexpected legacy-compatible master-plus row count: ", legacy_flagged_row_count)
+}
+
+combined_network <- combined_network_with_legacy %>%
+  select(all_of(all_columns), all_of(legacy_compatibility_columns)) %>%
+  host_network_fill_taxonomy_gaps(
+    taxonomy_reference_path = taxonomy_reference_path,
+    virion_taxonomy_path = virion_taxonomy_path
+  )
+
+stopifnot(nrow(combined_network) == nrow(who_network) + nrow(master_network))
+stopifnot(!any(is.na(combined_network$downstream_default_include)))
+stopifnot(!any(is.na(combined_network$Host[combined_network$downstream_default_include])))
+stopifnot(!any(is.na(combined_network$Host_raw)))
+stopifnot(!any(is.na(combined_network$host_taxonomy_ready)))
+stopifnot(!any(is.na(combined_network$modelling_scope_status)))
+stopifnot(!any(is.na(combined_network$modelling_scope_reason)))
+stopifnot(!any(is.na(combined_network$in_legacy_canonical_zoonotic_pathogen_host)))
+
+dir.create(dirname(combined_output_path), recursive = TRUE, showWarnings = FALSE)
+write_csv(combined_network, combined_output_path, na = "")
+
+cat("WHO network rows:", nrow(who_network), "\n")
+cat("Master host rows:", nrow(master_network), "\n")
+cat("Combined host-network rows:", nrow(combined_network), "\n")
+cat("Downstream default include rows:", sum(combined_network$downstream_default_include), "\n")
+cat("Possible cross-source duplicate rows:", sum(combined_network$possible_cross_source_duplicate_flag), "\n")
+cat("Legacy canonical zoonotic association keys:", legacy_key_count, "\n")
+cat("Legacy association keys covered:", legacy_unique_keys_covered, "\n")
+cat("Legacy-compatible master-plus rows:", legacy_flagged_row_count, "\n")
+cat("Legacy association keys missing:", length(legacy_keys_missing), "\n")
+cat("Detection methods:\n")
+print(count(combined_network, host_network_source, DetectionMethod, downstream_default_include), n = Inf)
+cat("Rows by source:\n")
+print(count(combined_network, host_network_source, source_table), n = Inf)
+cat("Rows by modelling scope:\n")
+print(
+  count(
+    combined_network,
+    host_network_source,
+    modelling_scope_status,
+    downstream_default_include
+  ),
+  n = Inf
+)
+cat("Wrote:", combined_output_path, "\n")

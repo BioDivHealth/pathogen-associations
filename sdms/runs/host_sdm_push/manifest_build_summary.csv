@@ -1,0 +1,10 @@
+"summary_group","value","rows"
+"eligibility_status","first_pass_eligible",173
+"eligibility_status","review_exclude_human_domestic_or_livestock",5
+"eligibility_status","review_non_target_class",8
+"eligibility_status","review_not_pilot_include_disease",39
+"host_class","Actinopterygii",4
+"host_class","Mammalia",217
+"host_class","Reptilia",4
+"sdm_needed_for_disease","no",52
+"sdm_needed_for_disease","yes",173

@@ -1,0 +1,106 @@
+"source","species_name","total_rows","coord_rows","unique_coord_rows"
+"VectorMap MosquitoMap occurrence","aedes aegypti",29347,28396,10907
+"VectorMap MosquitoMap occurrence","aedes africanus",185,185,87
+"VectorMap MosquitoMap occurrence","aedes albopictus",41037,40703,13846
+"VectorMap MosquitoMap occurrence","aedes fulgens",19,19,3
+"VectorMap MosquitoMap occurrence","aedes furcifer",29,29,13
+"VectorMap MosquitoMap occurrence","aedes furcifer taylori",0,0,0
+"VectorMap MosquitoMap occurrence","aedes hensilli",1,1,1
+"VectorMap MosquitoMap occurrence","aedes luteocephalus",99,99,63
+"VectorMap MosquitoMap occurrence","aedes notoscriptus",753,753,240
+"VectorMap MosquitoMap occurrence","aedes procax",208,208,63
+"VectorMap MosquitoMap occurrence","aedes togoi",273,273,105
+"VectorMap MosquitoMap occurrence","aedes triseriatus",1466,1466,182
+"VectorMap MosquitoMap occurrence","aedes vexans",23157,23157,578
+"VectorMap MosquitoMap occurrence","aedes vigilax",975,975,265
+"VectorMap MosquitoMap occurrence","aedes vittatus",1027,1027,141
+"VectorMap MosquitoMap occurrence","coquillettidia linealis",177,177,65
+"VectorMap MosquitoMap occurrence","culex annulirostris",1676,1676,367
+"VectorMap MosquitoMap occurrence","culex sitiens",431,431,159
+"VectorMap MosquitoMap occurrence","eretmapodites chrysogaster",182,182,71
+"VectorMap MosquitoMap occurrence","opifex fuscus",9,9,3
+"VectorMap MosquitoMap occurrence","verrallina funerea",134,134,72
+"VectorMap BloodMealMap","aedes aegypti",48,48,13
+"VectorMap BloodMealMap","aedes africanus",2,2,2
+"VectorMap BloodMealMap","aedes albopictus",96,96,25
+"VectorMap BloodMealMap","aedes fulgens",0,0,0
+"VectorMap BloodMealMap","aedes furcifer",3,3,1
+"VectorMap BloodMealMap","aedes furcifer taylori",0,0,0
+"VectorMap BloodMealMap","aedes hensilli",0,0,0
+"VectorMap BloodMealMap","aedes luteocephalus",4,4,2
+"VectorMap BloodMealMap","aedes notoscriptus",20,20,7
+"VectorMap BloodMealMap","aedes procax",3,3,2
+"VectorMap BloodMealMap","aedes togoi",0,0,0
+"VectorMap BloodMealMap","aedes triseriatus",60,60,12
+"VectorMap BloodMealMap","aedes vexans",256,256,37
+"VectorMap BloodMealMap","aedes vigilax",27,27,7
+"VectorMap BloodMealMap","aedes vittatus",11,11,4
+"VectorMap BloodMealMap","coquillettidia linealis",14,14,4
+"VectorMap BloodMealMap","culex annulirostris",223,223,33
+"VectorMap BloodMealMap","culex sitiens",67,67,14
+"VectorMap BloodMealMap","eretmapodites chrysogaster",2,2,1
+"VectorMap BloodMealMap","opifex fuscus",0,0,0
+"VectorMap BloodMealMap","verrallina funerea",2,2,2
+"VectorMap host-vector staged","aedes aegypti",48,48,13
+"VectorMap host-vector staged","aedes africanus",2,2,2
+"VectorMap host-vector staged","aedes albopictus",96,96,25
+"VectorMap host-vector staged","aedes fulgens",0,0,0
+"VectorMap host-vector staged","aedes furcifer",3,3,1
+"VectorMap host-vector staged","aedes furcifer taylori",0,0,0
+"VectorMap host-vector staged","aedes hensilli",0,0,0
+"VectorMap host-vector staged","aedes luteocephalus",4,4,2
+"VectorMap host-vector staged","aedes notoscriptus",20,20,7
+"VectorMap host-vector staged","aedes procax",3,3,2
+"VectorMap host-vector staged","aedes togoi",0,0,0
+"VectorMap host-vector staged","aedes triseriatus",60,60,12
+"VectorMap host-vector staged","aedes vexans",256,256,37
+"VectorMap host-vector staged","aedes vigilax",27,27,7
+"VectorMap host-vector staged","aedes vittatus",11,11,4
+"VectorMap host-vector staged","coquillettidia linealis",14,14,4
+"VectorMap host-vector staged","culex annulirostris",223,223,33
+"VectorMap host-vector staged","culex sitiens",67,67,14
+"VectorMap host-vector staged","eretmapodites chrysogaster",2,2,1
+"VectorMap host-vector staged","opifex fuscus",0,0,0
+"VectorMap host-vector staged","verrallina funerea",2,2,2
+"MapVEu raw samples","aedes aegypti",29473,29090,2341
+"MapVEu raw samples","aedes africanus",0,0,0
+"MapVEu raw samples","aedes albopictus",34866,34858,2987
+"MapVEu raw samples","aedes fulgens",0,0,0
+"MapVEu raw samples","aedes furcifer",0,0,0
+"MapVEu raw samples","aedes furcifer taylori",0,0,0
+"MapVEu raw samples","aedes hensilli",0,0,0
+"MapVEu raw samples","aedes luteocephalus",0,0,0
+"MapVEu raw samples","aedes notoscriptus",12,12,8
+"MapVEu raw samples","aedes procax",0,0,0
+"MapVEu raw samples","aedes togoi",0,0,0
+"MapVEu raw samples","aedes triseriatus",0,0,0
+"MapVEu raw samples","aedes vexans",234093,234080,3022
+"MapVEu raw samples","aedes vigilax",0,0,0
+"MapVEu raw samples","aedes vittatus",6,6,6
+"MapVEu raw samples","coquillettidia linealis",7,7,5
+"MapVEu raw samples","culex annulirostris",15,15,13
+"MapVEu raw samples","culex sitiens",10,10,10
+"MapVEu raw samples","eretmapodites chrysogaster",0,0,0
+"MapVEu raw samples","opifex fuscus",0,0,0
+"MapVEu raw samples","verrallina funerea",0,0,0
+"MapVEu host-vector staged","aedes aegypti",480,480,7
+"MapVEu host-vector staged","aedes africanus",0,0,0
+"MapVEu host-vector staged","aedes albopictus",0,0,0
+"MapVEu host-vector staged","aedes fulgens",0,0,0
+"MapVEu host-vector staged","aedes furcifer",0,0,0
+"MapVEu host-vector staged","aedes furcifer taylori",0,0,0
+"MapVEu host-vector staged","aedes hensilli",0,0,0
+"MapVEu host-vector staged","aedes luteocephalus",0,0,0
+"MapVEu host-vector staged","aedes notoscriptus",7,7,6
+"MapVEu host-vector staged","aedes procax",0,0,0
+"MapVEu host-vector staged","aedes togoi",0,0,0
+"MapVEu host-vector staged","aedes triseriatus",0,0,0
+"MapVEu host-vector staged","aedes vexans",0,0,0
+"MapVEu host-vector staged","aedes vigilax",0,0,0
+"MapVEu host-vector staged","aedes vittatus",0,0,0
+"MapVEu host-vector staged","coquillettidia linealis",3,3,3
+"MapVEu host-vector staged","culex annulirostris",53,53,7
+"MapVEu host-vector staged","culex sitiens",0,0,0
+"MapVEu host-vector staged","eretmapodites chrysogaster",0,0,0
+"MapVEu host-vector staged","opifex fuscus",0,0,0
+"MapVEu host-vector staged","verrallina funerea",0,0,0

@@ -1,0 +1,254 @@
+---
+title: "Chikungunya Host and Vector SDM Bundle Summary"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    theme: flatly
+    highlight: tango
+    fig_width: 10
+    fig_height: 6
+editor_options:
+  chunk_output_type: inline
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  fig.width = 10,
+  fig.height = 6
+)
+
+has_path <- function(x) {
+  is.character(x) && length(x) > 0 && !is.na(x[[1]]) && nzchar(x[[1]]) &&
+    !identical(toupper(trimws(x[[1]])), "NA")
+}
+
+parent_dirs <- function(path) {
+  if (!has_path(path)) return(character(0))
+  path <- normalizePath(path[[1]], mustWork = FALSE)
+  out <- character(0)
+  repeat {
+    out <- c(out, path)
+    parent <- dirname(path)
+    if (identical(parent, path)) break
+    path <- parent
+  }
+  unique(out)
+}
+
+find_bundle_root <- function(...) {
+  candidates <- unique(unlist(lapply(list(...), parent_dirs), use.names = FALSE))
+  default_delivery_root <- "/Volumes/LaCie/new_global_maxent/sdms/delivery/chikungunya_vector_sdm_delivery_20260609"
+  if (dir.exists(default_delivery_root)) candidates <- c(candidates, default_delivery_root)
+
+  for (candidate in unique(candidates)) {
+    if (file.exists(file.path(candidate, "manifest.csv"))) return(candidate)
+  }
+
+  stop("Could not find manifest.csv. Open this Rmd from the delivery bundle folder, or set `bundle_root` manually.", call. = FALSE)
+}
+
+notebook_path <- tryCatch({
+  if (requireNamespace("knitr", quietly = TRUE)) knitr::current_input(dir = TRUE) else ""
+}, error = function(e) "")
+
+if (!has_path(notebook_path) && requireNamespace("rstudioapi", quietly = TRUE)) {
+  notebook_path <- tryCatch(rstudioapi::getActiveDocumentContext()$path, error = function(e) "")
+}
+
+bundle_root <- find_bundle_root(notebook_path, getwd())
+source(file.path(bundle_root, "explore_chikungunya_vector_sdm_bundle.R"))
+
+render_table <- function(dat, digits = 3) {
+  dat <- as.data.frame(dat)
+  numeric_cols <- vapply(dat, is.numeric, logical(1))
+  dat[numeric_cols] <- lapply(dat[numeric_cols], round, digits = digits)
+
+  knitr::kable(
+    dat,
+    format = "html",
+    escape = TRUE,
+    table.attr = "class='table table-striped table-hover table-condensed'"
+  )
+}
+
+drop_geometry_if_needed <- function(dat) {
+  if (inherits(dat, "sf") && requireNamespace("sf", quietly = TRUE)) {
+    return(sf::st_drop_geometry(dat))
+  }
+  dat
+}
+
+include_saved_map <- function(species, with_occurrences = TRUE) {
+  path <- map_path(species, with_occurrences = with_occurrences)
+  if (!file.exists(path) && with_occurrences) path <- map_path(species, with_occurrences = FALSE)
+  if (!file.exists(path)) return(invisible(NULL))
+
+  knitr::include_graphics(path)
+}
+```
+
+This static report summarizes the delivered Chikungunya host and vector SDM bundle. It is intended for quick review and sharing; use `explore_chikungunya_vector_sdm_bundle.Rmd` for interactive filtering, downloads, generated code, and dynamic map selection.
+
+## Disease Summary
+
+```{r disease-summary}
+disease_info <- disease_overview()
+country_metrics <- pilot_country_metrics()
+
+disease_summary_table <- tibble::tibble(
+  field = c(
+    "Disease",
+    "Analysis unit",
+    "Pathogen",
+    "Pathogen taxid",
+    "Family",
+    "Transmission guild",
+    "Range-limiting layer",
+    "Host SDMs available",
+    "Vector SDMs available",
+    "Countries/territories with evidence",
+    "GenBank-supported countries/territories",
+    "WHO DON-supported countries/territories",
+    "Countries/territories supported by both"
+  ),
+  value = c(
+    disease_info$readiness_disease_name,
+    disease_info$analysis_unit_label,
+    disease_info$pathogen_species_name,
+    disease_info$pathogen_taxid,
+    disease_info$family,
+    disease_info$guild,
+    disease_info$range_limiting_layer,
+    disease_info$host_sdm_species_available,
+    disease_info$vector_sdm_species_available,
+    country_metrics$countries_or_territories,
+    country_metrics$genbank_supported,
+    country_metrics$who_don_supported,
+    country_metrics$supported_by_both
+  )
+)
+
+render_table(disease_summary_table)
+```
+
+## Country Evidence
+
+```{r country-evidence}
+country_map_packages_missing <- missing_country_map_packages()
+country_summary_table <- if (length(country_map_packages_missing) == 0) {
+  pilot_country_summary(map_ready = TRUE) |>
+    drop_geometry_if_needed()
+} else {
+  pilot_country_summary(map_ready = FALSE)
+}
+
+country_source_counts <- country_summary_table |>
+  dplyr::count(source_group, name = "countries_or_territories") |>
+  dplyr::arrange(dplyr::desc(countries_or_territories))
+
+render_table(country_source_counts)
+```
+
+```{r country-map, fig.height=6.5}
+if (length(country_map_packages_missing) == 0) {
+  print(pilot_country_map_plot())
+} else {
+  cat("Install required map packages to draw the country map: ", paste(country_map_packages_missing, collapse = ", "), "\n", sep = "")
+}
+```
+
+## Bundle Summary
+
+```{r bundle-summary}
+sdm_status <- sdm_summary()
+sdm_index <- sdms(available_only = FALSE)
+
+render_table(sdm_status)
+```
+
+```{r availability-counts}
+availability_counts <- tibble::tibble(
+  category = c("Delivered host SDMs", "Delivered vector SDMs", "Diagnostic vector SDMs"),
+  n = c(
+    nrow(hosts(sdm_available = TRUE)),
+    nrow(vectors(sdm_available = TRUE)),
+    nrow(diagnostic_sdms())
+  )
+)
+
+render_table(availability_counts)
+```
+
+## Delivered Host SDMs
+
+```{r host-sdms}
+host_table <- filter_hosts_for_bundle(sdm_availability = "available") |>
+  dplyr::select(-local_model_path, -local_prediction_tif) |>
+  dplyr::arrange(species_name)
+
+render_table(host_table)
+```
+
+## Delivered Vector SDMs
+
+```{r vector-sdms}
+vector_table <- filter_vectors_for_bundle(sdm_availability = "available") |>
+  dplyr::select(-local_model_path, -local_prediction_tif) |>
+  dplyr::arrange(delivery_group, species_name)
+
+render_table(vector_table)
+```
+
+## Diagnostic Vectors
+
+These three vector SDMs are included for inspection but are not recommended as clean production models without manual review.
+
+```{r diagnostic-vectors}
+diagnostic_table <- diagnostic_sdms() |>
+  dplyr::select(
+    species_name,
+    delivery_group,
+    model_quality,
+    retained_models,
+    min_boyce,
+    max_boyce,
+    max_test_auc,
+    max_max_tss
+  ) |>
+  dplyr::arrange(species_name)
+
+render_table(diagnostic_table)
+```
+
+## Example Prediction Maps
+
+These are saved maps from the delivered bundle. The full set of `.rds` model paths and `.tif` raster paths is available through the interactive notebook downloads or the helper functions.
+
+### Aedes aegypti
+
+```{r map-aedes-aegypti, fig.height=6.5}
+include_saved_map("Aedes aegypti", with_occurrences = TRUE)
+```
+
+### Aedes albopictus
+
+```{r map-aedes-albopictus, fig.height=6.5}
+include_saved_map("Aedes albopictus", with_occurrences = TRUE)
+```
+
+### Opifex fuscus
+
+```{r map-opifex-fuscus, fig.height=6.5}
+include_saved_map("Opifex fuscus", with_occurrences = TRUE)
+```
+
+### Aedes africanus
+
+```{r map-aedes-africanus, fig.height=6.5}
+include_saved_map("Aedes africanus", with_occurrences = TRUE)
+```

@@ -1,0 +1,11 @@
+"species","match_status","taxonKey","usageKey","acceptedUsageKey","matched_name","rank","total","coord","coord_clean","coord_clean_2015_2025","error"
+"Aedes albopictus","EXACT","1651430","1651430",,"Aedes albopictus (Skuse, 1894)","SPECIES",138173,128787,128511,82676,
+"Aedes fulgens","EXACT","1650937","1650937",,"Aedes fulgens (Edwards, 1917)","SPECIES",7,6,6,0,
+"Aedes furcifer","EXACT","1650917","1650917",,"Aedes furcifer Edwards, 1913","SPECIES",65,12,12,0,
+"Aedes furcifer taylori","HIGHERRANK","1650917","1650917",,"Aedes furcifer Edwards, 1913","SPECIES",65,12,12,0,
+"Aedes hensilli","EXACT","1651765","1651765",,"Aedes hensilli Farner, 1945","SPECIES",91,46,46,0,
+"Aedes luteocephalus","EXACT","1651851","1651851",,"Aedes luteocephalus (Newstead, 1907)","SPECIES",192,162,155,50,
+"Aedes vexans","EXACT","1652274","1652274",,"Aedes vexans (Meigen, 1830)","SPECIES",273786,268794,268787,69473,
+"Aedes vigilax","EXACT","1651828","1651828",,"Aedes vigilax (Skuse, 1889)","SPECIES",2442,2236,2236,573,
+"Aedes vittatus","EXACT","1651171","1651171",,"Aedes vittatus (Bigot, 1861)","SPECIES",786,668,668,260,
+"Coquillettidia linealis","EXACT","1648788","1648788",,"Coquillettidia linealis (Skuse, 1889)","SPECIES",472,453,453,190,

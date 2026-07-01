@@ -1,0 +1,623 @@
+---
+title: "Explore Chikungunya Host and Vector SDM Bundle"
+output:
+  html_document:
+    toc_float: true
+    toc_depth: 2
+    code_folding: show
+    theme: flatly
+    highlight: tango
+    fig_width: 10
+    fig_height: 6
+    toc: true
+editor_options:
+  chunk_output_type: inline
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  fig.width = 10,
+  fig.height = 6
+)
+
+has_path <- function(x) {
+  is.character(x) && length(x) > 0 && !is.na(x[[1]]) && nzchar(x[[1]]) &&
+  !identical(toupper(trimws(x[[1]])), "NA")
+}
+
+parent_dirs <- function(path) {
+  if (!has_path(path)) return(character(0))
+  path <- normalizePath(path[[1]], mustWork = FALSE)
+  out <- character(0)
+  repeat {
+    out <- c(out, path)
+    parent <- dirname(path)
+    if (identical(parent, path)) break
+    path <- parent
+  }
+  unique(out)
+}
+
+find_bundle_root <- function(...) {
+  candidates <- unique(unlist(lapply(list(...), parent_dirs), use.names = FALSE))
+  default_delivery_root <- "/Volumes/LaCie/new_global_maxent/sdms/delivery/chikungunya_vector_sdm_delivery_20260609"
+  if (dir.exists(default_delivery_root)) candidates <- c(candidates, default_delivery_root)
+
+  for (candidate in unique(candidates)) {
+    if (file.exists(file.path(candidate, "manifest.csv"))) return(candidate)
+  }
+
+  stop("Could not find manifest.csv. Open this Rmd from the delivery bundle folder, or set `bundle_root` manually.", call. = FALSE)
+}
+
+notebook_path <- tryCatch({
+  if (requireNamespace("knitr", quietly = TRUE)) knitr::current_input(dir = TRUE) else ""
+}, error = function(e) "")
+
+if (!has_path(notebook_path) && requireNamespace("rstudioapi", quietly = TRUE)) {
+  notebook_path <- tryCatch(rstudioapi::getActiveDocumentContext()$path, error = function(e) "")
+}
+
+bundle_root <- find_bundle_root(notebook_path, getwd())
+source(file.path(bundle_root, "explore_chikungunya_vector_sdm_bundle.R"))
+
+if (!requireNamespace("shiny", quietly = TRUE)) {
+  stop("Install the `shiny` package to use this interactive notebook.", call. = FALSE)
+}
+
+html_escape <- function(x) {
+  x <- as.character(x)
+  x[is.na(x)] <- ""
+  x <- gsub("&", "&amp;", x, fixed = TRUE)
+  x <- gsub("<", "&lt;", x, fixed = TRUE)
+  x <- gsub(">", "&gt;", x, fixed = TRUE)
+  x <- gsub('"', "&quot;", x, fixed = TRUE)
+  x
+}
+
+table_html <- function(dat, digits = 3) {
+  dat <- as.data.frame(dat)
+  numeric_cols <- vapply(dat, is.numeric, logical(1))
+  dat[numeric_cols] <- lapply(dat[numeric_cols], round, digits = digits)
+
+  if (nrow(dat) == 0) {
+    return("<p><em>No rows match the current filter.</em></p>")
+  }
+
+  if (requireNamespace("kableExtra", quietly = TRUE)) {
+    html <- knitr::kable(dat, format = "html", escape = TRUE, table.attr = "class='table table-striped table-hover table-condensed'") |>
+        kableExtra::kable_styling(
+          bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+          full_width = FALSE,
+          position = "left",
+          font_size = 13
+        )
+    return(paste(as.character(html), collapse = "\n"))
+  }
+
+  table_style <- paste(
+    "border-collapse:collapse",
+    "width:auto",
+    "min-width:60%",
+    "font-size:13px",
+    "line-height:1.35",
+    "background:#ffffff",
+    "color:#222222",
+    "border:1px solid #d7d7d7",
+    sep = ";"
+  )
+  th_style <- paste(
+    "background:#f0f3f5",
+    "color:#202020",
+    "font-weight:600",
+    "border:1px solid #d0d5d8",
+    "padding:6px 8px",
+    "text-align:left",
+    "white-space:nowrap",
+    sep = ";"
+  )
+  td_style <- paste(
+    "border:1px solid #e0e0e0",
+    "padding:5px 8px",
+    "text-align:left",
+    "white-space:nowrap",
+    sep = ";"
+  )
+
+  header <- paste0(
+    "<tr>",
+    paste0("<th style='", th_style, "'>", html_escape(names(dat)), "</th>", collapse = ""),
+    "</tr>"
+  )
+
+  rows <- vapply(seq_len(nrow(dat)), function(i) {
+    row_bg <- if (i %% 2 == 0) "#fafafa" else "#ffffff"
+    cells <- paste0(
+      "<td style='", td_style, ";background:", row_bg, ";color:#222222;'>",
+      html_escape(unlist(dat[i, , drop = FALSE], use.names = FALSE)),
+      "</td>",
+      collapse = ""
+    )
+    paste0("<tr>", cells, "</tr>")
+  }, character(1))
+
+  html <- paste0(
+    "<div style='overflow-x:auto; max-width:100%; margin:0.4rem 0 1rem 0;'>",
+    "<table style='", table_style, "'>",
+    header,
+    paste(rows, collapse = ""),
+    "</table>",
+    "</div>"
+  )
+
+  html
+}
+
+render_table <- function(dat, digits = 3) {
+  knitr::asis_output(table_html(dat, digits = digits))
+}
+
+render_table_ui <- function(dat, digits = 3) {
+  shiny::HTML(table_html(dat, digits = digits))
+}
+
+all_choices <- function(x) {
+  x <- sort(unique(na.omit(as.character(x))))
+  x <- x[nzchar(x)]
+  unname(x)
+}
+
+sdm_filter_value <- function(x) {
+  if (is.null(x)) return("available")
+  if (identical(x, "Available only")) return("available")
+  if (identical(x, "Unavailable only")) return("unavailable")
+  "all"
+}
+
+code_string <- function(x) {
+  encodeString(as.character(x), quote = '"')
+}
+
+code_chr_vector <- function(x) {
+  x <- selected_values(x)
+  if (length(x) == 0) return("NULL")
+  paste0("c(", paste(vapply(x, code_string, character(1)), collapse = ", "), ")")
+}
+
+code_bool_vector <- function(x) {
+  x <- bool_filter_values(x)
+  if (is.null(x)) return("NULL")
+  values <- ifelse(x, "TRUE", "FALSE")
+  if (length(values) == 1) return(values[[1]])
+  paste0("c(", paste(values, collapse = ", "), ")")
+}
+
+code_call <- function(function_name, args) {
+  lines <- paste0("  ", names(args), " = ", unlist(args, use.names = FALSE))
+  paste0(function_name, "(\n", paste(lines, collapse = ",\n"), "\n)")
+}
+
+value_or_missing <- function(x) {
+  x <- as.character(x)
+  if (length(x) == 0 || is.na(x[[1]]) || !nzchar(x[[1]])) return("not available")
+  x[[1]]
+}
+
+drop_geometry_if_needed <- function(dat) {
+  if (inherits(dat, "sf") && requireNamespace("sf", quietly = TRUE)) {
+    return(sf::st_drop_geometry(dat))
+  }
+  dat
+}
+```
+
+This notebook is for exploring the delivered Chikungunya host and vector SDM bundle. Use the filters to inspect candidate species, download filtered tables when you need file paths, and use the generated code to reproduce the same selections in R.
+
+## Disease Summary
+
+```{r disease-summary}
+disease_info <- disease_overview()
+country_metrics <- pilot_country_metrics()
+
+disease_summary_table <- tibble::tibble(
+  field = c(
+    "Disease",
+    "Analysis unit",
+    "Pathogen",
+    "Pathogen taxid",
+    "Family",
+    "Prototype priority",
+    "Transmission guild",
+    "Range-limiting layer",
+    "Host SDMs available",
+    "Vector SDMs available",
+    "Countries/territories with evidence",
+    "GenBank-supported countries/territories",
+    "WHO DON-supported countries/territories",
+    "Countries/territories supported by both"
+  ),
+  value = c(
+    disease_info$readiness_disease_name,
+    disease_info$analysis_unit_label,
+    disease_info$pathogen_species_name,
+    disease_info$pathogen_taxid,
+    disease_info$family,
+    disease_info$priority_prototype_status,
+    disease_info$guild,
+    disease_info$range_limiting_layer,
+    disease_info$host_sdm_species_available,
+    disease_info$vector_sdm_species_available,
+    country_metrics$countries_or_territories,
+    country_metrics$genbank_supported,
+    country_metrics$who_don_supported,
+    country_metrics$supported_by_both
+  )
+)
+
+render_table(disease_summary_table)
+```
+
+## Country Evidence
+
+```{r country-evidence-data}
+country_map_packages_missing <- missing_country_map_packages()
+country_summary_table <- if (length(country_map_packages_missing) == 0) {
+  pilot_country_summary(map_ready = TRUE) |>
+    drop_geometry_if_needed()
+} else {
+  pilot_country_summary(map_ready = FALSE)
+}
+
+country_source_counts <- country_summary_table |>
+  dplyr::count(source_group, name = "countries_or_territories") |>
+  dplyr::arrange(dplyr::desc(countries_or_territories))
+
+render_table(country_source_counts)
+```
+
+```{r country-map, fig.height=6.5}
+if (length(country_map_packages_missing) == 0) {
+  print(pilot_country_map_plot())
+} else {
+  cat("Install required map packages to draw the country map: ", paste(country_map_packages_missing, collapse = ", "), "\n", sep = "")
+}
+```
+
+## Bundle Summary
+
+```{r bundle-summary}
+sdm_status <- sdm_summary()
+sdm_index <- sdms(available_only = FALSE)
+host_index <- hosts()
+vector_index <- vectors()
+diagnostic_vector_index <- diagnostic_sdms()
+
+render_table(sdm_status)
+```
+
+```{r availability-counts}
+availability_counts <- tibble::tibble(
+  category = c("Delivered host SDMs", "Delivered vector SDMs", "Diagnostic vector SDMs"),
+  n = c(
+    nrow(hosts(sdm_available = TRUE)),
+    nrow(vectors(sdm_available = TRUE)),
+    nrow(diagnostic_vector_index)
+  )
+)
+
+render_table(availability_counts)
+```
+
+## Delivered SDMs
+
+```{r delivered-sdms}
+delivered_sdm_table <- sdm_index |>
+  dplyr::select(
+    species_name,
+    species_role,
+    delivery_group,
+    model_quality,
+    retained_models,
+    max_test_auc,
+    max_max_tss,
+    has_prediction
+  )
+
+render_table(delivered_sdm_table)
+```
+
+## Host Filters
+
+The table below hides long model and raster paths to keep the display readable. The downloaded CSV and generated R code return those paths as `local_model_path` and `local_prediction_tif`.
+
+```{r host-filter-controls}
+shiny::fluidRow(
+  shiny::column(
+    3,
+    shiny::selectInput(
+      "host_sdm_filter",
+      "SDM availability",
+      choices = c("Available only", "All", "Unavailable only"),
+      selected = "Available only"
+    )
+  ),
+  shiny::column(
+    3,
+    shiny::selectizeInput(
+      "host_detection_filter",
+      "Detection method",
+      choices = detection_category_levels,
+      multiple = TRUE,
+      options = list(placeholder = "All detection categories")
+    )
+  ),
+  shiny::column(
+    3,
+    shiny::selectizeInput(
+      "host_role_filter",
+      "Host role",
+      choices = all_choices(host_index$host_role_assignment),
+      multiple = TRUE,
+      options = list(placeholder = "All host roles")
+    )
+  ),
+  shiny::column(
+    3,
+    shiny::selectizeInput(
+      "host_confidence_filter",
+      "Confidence",
+      choices = all_choices(host_index$host_role_confidence),
+      multiple = TRUE,
+      options = list(placeholder = "All confidence levels")
+    )
+  )
+)
+```
+
+```{r host-filter-reactive, include=FALSE}
+host_filtered <- shiny::reactive({
+  filter_hosts_for_bundle(
+    sdm_availability = sdm_filter_value(input$host_sdm_filter),
+    detection_categories = input$host_detection_filter,
+    roles = input$host_role_filter,
+    confidence = input$host_confidence_filter
+  )
+})
+
+host_filter_code <- shiny::reactive({
+  code_call(
+    "filter_hosts_for_bundle",
+    list(
+      sdm_availability = code_string(sdm_filter_value(input$host_sdm_filter)),
+      detection_categories = code_chr_vector(input$host_detection_filter),
+      roles = code_chr_vector(input$host_role_filter),
+      confidence = code_chr_vector(input$host_confidence_filter)
+    )
+  )
+})
+```
+
+```{r host-download-server, context="server", include=FALSE}
+if (exists("output", inherits = TRUE)) {
+  output$download_filtered_hosts <- shiny::downloadHandler(
+    filename = function() "chikungunya_filtered_hosts.csv",
+    content = function(file) readr::write_csv(host_filtered(), file)
+  )
+}
+```
+
+```{r host-filter-actions}
+shiny::tagList(
+  shiny::div(
+    style = "margin: 0.4rem 0 0.8rem 0;",
+    shiny::downloadButton("download_filtered_hosts", "Download filtered hosts CSV")
+  ),
+  shiny::div(
+    style = "clear: both; width: 100%;",
+    shiny::tags$label("Generated R code"),
+    shiny::renderUI({
+      shiny::tags$pre(host_filter_code())
+    })
+  )
+)
+```
+
+```{r host-filter-table}
+shiny::renderUI({
+  host_filtered() |>
+    dplyr::select(-local_model_path, -local_prediction_tif) |>
+    render_table_ui()
+})
+```
+
+## Vector Filters
+
+Vector filters work the same way: the on-screen table is compact, while the downloaded CSV and generated R code include the delivered `.rds` model path and prediction `.tif` path.
+
+```{r vector-filter-controls}
+shiny::fluidRow(
+  shiny::column(
+    3,
+    shiny::selectInput(
+      "vector_sdm_filter",
+      "SDM availability",
+      choices = c("Available only", "All", "Unavailable only"),
+      selected = "Available only"
+    )
+  ),
+  shiny::column(
+    3,
+    shiny::selectizeInput(
+      "vector_evidence_filter",
+      "Evidence level",
+      choices = all_choices(vector_index$best_evidence_level),
+      multiple = TRUE,
+      options = list(placeholder = "All evidence levels")
+    )
+  ),
+  shiny::column(
+    3,
+    shiny::selectizeInput(
+      "vector_competence_filter",
+      "Competence",
+      choices = all_choices(vector_index$vector_competence_status),
+      multiple = TRUE,
+      options = list(placeholder = "All competence statuses")
+    )
+  ),
+  shiny::column(
+    3,
+    shiny::selectizeInput(
+      "vector_bites_filter",
+      "Bites humans",
+      choices = c("TRUE", "FALSE"),
+      multiple = TRUE,
+      options = list(placeholder = "All")
+    )
+  )
+)
+```
+
+```{r vector-filter-reactive, include=FALSE}
+vector_filtered <- shiny::reactive({
+  filter_vectors_for_bundle(
+    sdm_availability = sdm_filter_value(input$vector_sdm_filter),
+    evidence_levels = input$vector_evidence_filter,
+    competence_statuses = input$vector_competence_filter,
+    bites_humans = input$vector_bites_filter
+  )
+})
+
+vector_filter_code <- shiny::reactive({
+  code_call(
+    "filter_vectors_for_bundle",
+    list(
+      sdm_availability = code_string(sdm_filter_value(input$vector_sdm_filter)),
+      evidence_levels = code_chr_vector(input$vector_evidence_filter),
+      competence_statuses = code_chr_vector(input$vector_competence_filter),
+      bites_humans = code_bool_vector(input$vector_bites_filter)
+    )
+  )
+})
+```
+
+```{r vector-download-server, context="server", include=FALSE}
+if (exists("output", inherits = TRUE)) {
+  output$download_filtered_vectors <- shiny::downloadHandler(
+    filename = function() "chikungunya_filtered_vectors.csv",
+    content = function(file) readr::write_csv(vector_filtered(), file)
+  )
+}
+```
+
+```{r vector-filter-actions}
+shiny::tagList(
+  shiny::div(
+    style = "margin: 0.4rem 0 0.8rem 0;",
+    shiny::downloadButton("download_filtered_vectors", "Download filtered vectors CSV")
+  ),
+  shiny::div(
+    style = "clear: both; width: 100%;",
+    shiny::tags$label("Generated R code"),
+    shiny::renderUI({
+      shiny::tags$pre(vector_filter_code())
+    })
+  )
+)
+```
+
+```{r vector-filter-table}
+shiny::renderUI({
+  vector_filtered() |>
+    dplyr::select(-local_model_path, -local_prediction_tif) |>
+    render_table_ui()
+})
+```
+
+## Diagnostic Vectors
+
+These three vector SDMs are included for inspection but are not recommended as clean production models without manual review.
+
+```{r diagnostic-vectors}
+render_table(diagnostic_vector_index)
+```
+
+## View Maps
+
+Select a species to preview its saved suitability map. The asset table shows the map and raster paths for the currently selected species.
+
+```{r map-controls}
+map_species_choices <- sdm_index |>
+  dplyr::filter(has_map %in% TRUE | has_prediction %in% TRUE) |>
+  dplyr::arrange(species_role, species_name) |>
+  dplyr::pull(species_name)
+
+shiny::selectInput(
+  "species_to_view",
+  "Species",
+  choices = map_species_choices,
+  selected = if ("Aedes aegypti" %in% map_species_choices) "Aedes aegypti" else map_species_choices[[1]]
+)
+shiny::checkboxInput("map_with_occurrences", "Use occurrence map when available", value = TRUE)
+```
+
+```{r map-paths}
+shiny::renderUI({
+  species_assets <- show_species(input$species_to_view)
+
+  asset_table <- tibble::tibble(
+    asset = c("Saved map", "Prediction raster"),
+    path = c(map_path(input$species_to_view, with_occurrences = input$map_with_occurrences), prediction_path(input$species_to_view))
+  )
+
+  shiny::tagList(
+    render_table_ui(species_assets$sdm),
+    render_table_ui(asset_table)
+  )
+})
+```
+
+```{r selected-map}
+shiny::renderUI({
+  path <- map_path(input$species_to_view, with_occurrences = input$map_with_occurrences)
+  if (!file.exists(path) && isTRUE(input$map_with_occurrences)) {
+    path <- map_path(input$species_to_view, with_occurrences = FALSE)
+  }
+  validate(need(file.exists(path), "No saved map is available for the selected species."))
+
+  shiny::tags$div(
+    style = "clear: both; width: 100%; margin-top: 12px;",
+    shiny::tags$img(
+      src = knitr::image_uri(path),
+      alt = paste("Saved SDM map for", input$species_to_view),
+      style = "display: block; width: 100%; max-width: 1120px; height: auto; margin: 0 auto;"
+    )
+  )
+})
+```
+
+## Load Rasters For Downstream Use
+
+When running these commands outside the dropdown, set `species_to_view` to a species name string exactly as shown in the tables, for example `"Aedes aegypti"`. Names with underscores are usually accepted too, but names with spaces are the clearest.
+
+```{r load-raster, echo=TRUE, eval=FALSE}
+species_to_view <- "Aedes aegypti"
+prediction <- load_prediction(species_to_view)
+prediction
+```
+
+## Advanced Model Details
+
+These helpers use the same species-name format as `load_prediction()`.
+
+```{r advanced-details, echo=TRUE, eval=FALSE}
+species_to_view <- "Aedes aegypti"
+read_run_summary(species_to_view)
+read_params(species_to_view)
+read_aicc(species_to_view)
+read_model(species_to_view)
+```
