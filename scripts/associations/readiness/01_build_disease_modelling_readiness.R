@@ -95,7 +95,10 @@ paths <- list(
   } else {
     genbank_standard_summary_path
   },
-  accessible_sdm_species = file.path(sdm_dir, "outputs", "catalog", "accessible_sdm_species.csv"),
+  accessible_sdm_species = prefer_existing_path(
+    readiness_accessible_sdm_species_path(),
+    file.path(sdm_dir, "outputs", "catalog", "accessible_sdm_species.csv")
+  ),
   sdm_projections = file.path(sdm_dir, "outputs", "projections", "projection_manifest.csv"),
   sdm_comparisons = file.path(sdm_dir, "outputs", "comparisons", "comparison_manifest.csv"),
   virion_taxid = file.path(who_virion_dir, "who_pathogens_virion_taxid.csv"),

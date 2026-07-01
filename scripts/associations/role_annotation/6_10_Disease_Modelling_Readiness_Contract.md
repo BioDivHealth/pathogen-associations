@@ -42,7 +42,8 @@ Missing optional inputs are treated as empty evidence layers, not as failures:
   with legacy fallback under `pathogen_association_data/WHO/disease_outbreak_news_v2/final/`
 - `pathogen_association_data/evidence/genbank_simple/genbank_readiness_disease_country_summary_standardized.csv`
   with fallback to the standard GenBank summary.
-- `sdms/outputs/catalog/accessible_sdm_species.csv`
+- `pathogen_association_data/readiness/sdm_catalog/accessible_sdm_species.csv`
+  with transitional fallback to `sdms/outputs/catalog/accessible_sdm_species.csv`
 - `sdms/outputs/projections/projection_manifest.csv`
 - `sdms/outputs/comparisons/comparison_manifest.csv`
 - `pathogen_association_data/staged/virion/outputs/who_pathogens_virion_taxid.csv`

@@ -49,13 +49,14 @@ paths <- list(
     "manifests",
     "consolidated_ready_sdms_manifest.csv"
   ),
-  accessible_sdm_species = file.path(
-    repo_root,
-    "sdms",
-    "outputs",
-    "catalog",
-    "accessible_sdm_species.csv"
-  ),
+  accessible_sdm_species = {
+    preferred_catalog <- file.path(readiness_source_dir, "sdm_catalog", "accessible_sdm_species.csv")
+    if (file.exists(preferred_catalog)) {
+      preferred_catalog
+    } else {
+      file.path(repo_root, "sdms", "outputs", "catalog", "accessible_sdm_species.csv")
+    }
+  },
   readiness_full = file.path(readiness_source_dir, "disease_modelling_readiness_full.csv"),
   readiness_slim = file.path(readiness_source_dir, "disease_modelling_readiness.csv"),
   species_roster = file.path(

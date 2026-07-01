@@ -1,22 +1,25 @@
 # SDM Scripts
 
-This folder separates scripts for fitting present-day SDMs from scripts that
-project existing SDMs into future climate scenarios.
+This folder contains temporary SDM migration material for present-day SDM target
+manifests, occurrence workflows, model execution, delivery bundles, and
+interface tooling.
 
 ## Folders
 
-- `present/`: present-day SDM fitting workflows. This is where new AutoMaxent
-  wrappers and calibration scripts should go.
-- `present_future/`: existing workflow for cataloguing saved SDM objects and
-  projecting them into future climate scenarios.
+- `present/`: present-day SDM fitting workflows, including target manifests,
+  occurrence preparation, model runners, calibration checks, diagnostics, and
+  bundle preparation.
+- `interface/`: helper functions, export scripts, and a Shiny app for using a
+  consolidated ready-SDM bundle.
 
-Refresh the readiness-facing SDM availability catalogue before rebuilding
-readiness outputs:
+Before rebuilding association readiness outputs, refresh or import the compact
+SDM availability catalogue at:
 
-```sh
-Rscript scripts/sdms/present_future/01_catalog_models.R
+```text
+pathogen_association_data/readiness/sdm_catalog/accessible_sdm_species.csv
 ```
 
-By default, the catalogue uses `READY_SDM_BUNDLE_ROOT` when set. Otherwise, it
-looks under `SDM_EXTERNAL_ROOT`, defaulting to:
-`/Volumes/LaCie/pathogen-sdms/consolidated_ready_sdms_20260630`.
+During migration, readiness falls back to
+`sdms/outputs/catalog/accessible_sdm_species.csv` if the preferred readiness
+catalogue is absent. Long term, the future SDM repository should own catalogue
+generation and publish only compact availability imports back to this repo.

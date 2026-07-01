@@ -23,6 +23,7 @@ mapveu_raw_dir <- file.path(source_data_dir, "mapveu", "raw")
 mapveu_dir <- mapveu_raw_dir
 vector_host_dir <- file.path(evidence_data_dir, "host_vector")
 readiness_dir <- file.path(pathogen_association_data_dir, "readiness")
+readiness_sdm_catalog_dir <- file.path(readiness_dir, "sdm_catalog")
 
 # WHO networks layout.
 who_networks_staged_dir <- file.path(staged_data_dir, "who_networks")
@@ -107,6 +108,10 @@ vector_modelling_features_path <- function() {
 
 vector_modelling_feature_summary_path <- function() {
   file.path(role_qa_dir, "vector_modelling_feature_summary.csv")
+}
+
+readiness_accessible_sdm_species_path <- function() {
+  file.path(readiness_sdm_catalog_dir, "accessible_sdm_species.csv")
 }
 
 role_host_proxy_rules_path <- function() {

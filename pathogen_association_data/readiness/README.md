@@ -13,18 +13,22 @@ readiness run. The older
 `genbank_disease_country_summary_standardized.csv` is retained as a fallback for
 historical standard-mode reruns only and is treated as local/archive material.
 
+Before rebuilding readiness, refresh the compact SDM availability catalogue at:
+
+```text
+pathogen_association_data/readiness/sdm_catalog/accessible_sdm_species.csv
+```
+
+During the SDM-repo migration, readiness falls back to
+`sdms/outputs/catalog/accessible_sdm_species.csv` if the preferred readiness
+catalogue is absent. The catalogue is the readiness-facing availability layer;
+readiness does not re-scan model folders directly.
+
 Regenerate disease modelling readiness from the repository root with:
 
 ```sh
-Rscript scripts/sdms/present_future/01_catalog_models.R
 Rscript scripts/associations/readiness/01_build_disease_modelling_readiness.R
 ```
-
-The SDM catalogue script prefers `READY_SDM_BUNDLE_ROOT` when set. Otherwise, it
-looks under `SDM_EXTERNAL_ROOT`, defaulting to:
-`/Volumes/LaCie/pathogen-sdms/consolidated_ready_sdms_20260630`.
-That catalogue is the readiness-facing availability layer; readiness does not
-re-scan model folders directly.
 
 Regenerate modelling evidence-tier handoff tables after refreshing role
 modelling features with:
@@ -44,8 +48,9 @@ Rscript scripts/associations/readiness/02_build_modelling_evidence_tiers_handoff
   pilot table is the spine, and companion CSVs expose host, vector, country,
   SDM-species, and evidence-summary layers keyed by `analysis_unit_id`.
   `pilot_sdm_species.csv` treats
-  `sdms/outputs/catalog/accessible_sdm_species.csv` as the SDM availability
-  source of truth.
+  `pathogen_association_data/readiness/sdm_catalog/accessible_sdm_species.csv`
+  as the preferred SDM availability import, with the transitional
+  `sdms/outputs/catalog/accessible_sdm_species.csv` path retained as fallback.
 - `disease_modelling_pilot_package.rds` and
   `disease_modelling_pilot_package.xlsx` are convenience versions of the same
   pilot package tables.
