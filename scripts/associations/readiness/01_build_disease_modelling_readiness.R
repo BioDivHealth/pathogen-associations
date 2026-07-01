@@ -99,8 +99,14 @@ paths <- list(
     readiness_accessible_sdm_species_path(),
     file.path(sdm_dir, "outputs", "catalog", "accessible_sdm_species.csv")
   ),
-  sdm_projections = file.path(sdm_dir, "outputs", "projections", "projection_manifest.csv"),
-  sdm_comparisons = file.path(sdm_dir, "outputs", "comparisons", "comparison_manifest.csv"),
+  sdm_projections = prefer_existing_path(
+    readiness_sdm_projection_manifest_path(),
+    file.path(sdm_dir, "outputs", "projections", "projection_manifest.csv")
+  ),
+  sdm_comparisons = prefer_existing_path(
+    readiness_sdm_comparison_manifest_path(),
+    file.path(sdm_dir, "outputs", "comparisons", "comparison_manifest.csv")
+  ),
   virion_taxid = file.path(who_virion_dir, "who_pathogens_virion_taxid.csv"),
   clover_taxid = file.path(who_clover_dir, "who_bacteria_clover_taxid.csv")
 )

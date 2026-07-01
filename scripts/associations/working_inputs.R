@@ -114,6 +114,14 @@ readiness_accessible_sdm_species_path <- function() {
   file.path(readiness_sdm_catalog_dir, "accessible_sdm_species.csv")
 }
 
+readiness_sdm_projection_manifest_path <- function() {
+  file.path(readiness_sdm_catalog_dir, "projection_manifest.csv")
+}
+
+readiness_sdm_comparison_manifest_path <- function() {
+  file.path(readiness_sdm_catalog_dir, "comparison_manifest.csv")
+}
+
 role_host_proxy_rules_path <- function() {
   file.path(role_modelling_proxy_rules_dir, "host_proxy_rules.csv")
 }

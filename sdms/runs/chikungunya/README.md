@@ -22,5 +22,9 @@ so they can be reused by other diseases.
 ## Storage Boundary
 
 Use this folder for Chikungunya-specific manifests, logs, and run notes. Do not
-store final model objects here. Store final reusable species SDMs in `sdms/models/`
-and update the catalog outputs under `sdms/outputs/catalog/`.
+store final model objects here. During the SDM-repo migration, reusable species
+SDMs remain local/transitional material under `sdms/models/` or external SDM
+bundle roots. Publish compact SDM availability back to the association repo via
+`pathogen_association_data/readiness/sdm_catalog/accessible_sdm_species.csv`;
+the older `sdms/outputs/catalog/` path is retained only as a compatibility
+fallback.

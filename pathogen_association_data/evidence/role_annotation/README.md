@@ -59,8 +59,10 @@ The files here should not replace the canonical network, vector-screening, compe
   That folder contains the lean all-disease readiness table, the WHO-focused
   pilot subset, the pilot package CSV/RDS/XLSX bundle, and the full audit
   companion with join diagnostics. Its SDM-species package table uses the
-  broader accessible SDM inventory in `sdms/outputs/catalog/` as the SDM
-  availability source of truth.
+  readiness-owned compact SDM inventory in
+  `pathogen_association_data/readiness/sdm_catalog/` as the preferred
+  availability input, with `sdms/outputs/catalog/` retained only as a
+  transitional fallback.
 
 ## Role-Review Scope
 

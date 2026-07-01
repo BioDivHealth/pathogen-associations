@@ -44,8 +44,12 @@ Missing optional inputs are treated as empty evidence layers, not as failures:
   with fallback to the standard GenBank summary.
 - `pathogen_association_data/readiness/sdm_catalog/accessible_sdm_species.csv`
   with transitional fallback to `sdms/outputs/catalog/accessible_sdm_species.csv`
-- `sdms/outputs/projections/projection_manifest.csv`
-- `sdms/outputs/comparisons/comparison_manifest.csv`
+- `pathogen_association_data/readiness/sdm_catalog/projection_manifest.csv`
+  with transitional fallback to `sdms/outputs/projections/projection_manifest.csv`;
+  currently absent unless future SDM projection catalogues are imported.
+- `pathogen_association_data/readiness/sdm_catalog/comparison_manifest.csv`
+  with transitional fallback to `sdms/outputs/comparisons/comparison_manifest.csv`;
+  currently absent unless future SDM comparison catalogues are imported.
 - `pathogen_association_data/staged/virion/outputs/who_pathogens_virion_taxid.csv`
 - `pathogen_association_data/staged/clover/outputs/who_bacteria_clover_taxid.csv`
 

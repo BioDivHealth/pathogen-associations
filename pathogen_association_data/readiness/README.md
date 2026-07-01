@@ -24,6 +24,19 @@ During the SDM-repo migration, readiness falls back to
 catalogue is absent. The catalogue is the readiness-facing availability layer;
 readiness does not re-scan model folders directly.
 
+Optional future projection and comparison catalogue imports should use the same
+folder when available:
+
+```text
+pathogen_association_data/readiness/sdm_catalog/projection_manifest.csv
+pathogen_association_data/readiness/sdm_catalog/comparison_manifest.csv
+```
+
+Those manifests are currently absent in this repo snapshot. Readiness keeps
+compatibility fallbacks to `sdms/outputs/projections/projection_manifest.csv`
+and `sdms/outputs/comparisons/comparison_manifest.csv`, but treats missing
+projection/comparison manifests as empty optional layers.
+
 Regenerate disease modelling readiness from the repository root with:
 
 ```sh
