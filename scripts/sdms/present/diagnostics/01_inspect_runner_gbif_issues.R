@@ -41,10 +41,13 @@ split_arg <- function(x) {
   trimws(unlist(strsplit(x, ",", fixed = TRUE)))
 }
 
+sdm_external_root <- Sys.getenv("SDM_EXTERNAL_ROOT", unset = "/Volumes/LaCie/pathogen-sdms")
+external_vector_root <- file.path(sdm_external_root, "runs_artur", "vector_sdm_push")
+
 runner_root <- get_arg("runner-root", "/Volumes/LaCie/host_vector_sdm_runner")
 vector_raw_root <- get_arg(
   "vector-raw-root",
-  "/Volumes/LaCie/new_global_maxent/sdms/runs_artur/vector_sdm_push/occurrences"
+  file.path(external_vector_root, "occurrences")
 )
 output_dir <- get_arg(
   "output-dir",

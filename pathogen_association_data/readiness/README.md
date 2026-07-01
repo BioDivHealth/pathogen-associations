@@ -20,9 +20,9 @@ Rscript scripts/sdms/present_future/01_catalog_models.R
 Rscript scripts/associations/readiness/01_build_disease_modelling_readiness.R
 ```
 
-The SDM catalogue script prefers the consolidated ready-SDM folder on LaCie
-when available:
-`/Volumes/LaCie/new_global_maxent/sdms/consolidated_ready_sdms_20260630`.
+The SDM catalogue script prefers `READY_SDM_BUNDLE_ROOT` when set. Otherwise, it
+looks under `SDM_EXTERNAL_ROOT`, defaulting to:
+`/Volumes/LaCie/pathogen-sdms/consolidated_ready_sdms_20260630`.
 That catalogue is the readiness-facing availability layer; readiness does not
 re-scan model folders directly.
 

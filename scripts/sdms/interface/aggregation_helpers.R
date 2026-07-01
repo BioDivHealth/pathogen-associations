@@ -64,7 +64,8 @@ default_ready_sdm_bundle_root <- function() {
     return(normalizePath(file.path(cwd, "..", ".."), winslash = "/", mustWork = FALSE))
   }
 
-  "/Volumes/LaCie/new_global_maxent/sdms/consolidated_ready_sdms_20260630"
+  sdm_external_root <- Sys.getenv("SDM_EXTERNAL_ROOT", unset = "/Volumes/LaCie/pathogen-sdms")
+  file.path(sdm_external_root, "consolidated_ready_sdms_20260630")
 }
 
 timestamp_file <- function() {

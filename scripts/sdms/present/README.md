@@ -133,11 +133,11 @@ sdms/runs/vector_sdm_push/occurrences/<Species_safe>/mapveu/raw/
 sdms/runs/vector_sdm_push/local_vector_occurrence_sources_manifest.csv
 ```
 
-Current bulk vector occurrence files may be stored outside the repo on the
-LaCie drive:
+Current bulk vector occurrence files may be stored outside the repo under
+`SDM_EXTERNAL_ROOT`, which defaults to `/Volumes/LaCie/pathogen-sdms`:
 
 ```text
-/Volumes/LaCie/new_global_maxent/sdms/runs_artur/vector_sdm_push/occurrences/
+<SDM_EXTERNAL_ROOT>/runs_artur/vector_sdm_push/occurrences/
 ```
 
 To audit whether GBIF downloads likely cover older names and synonyms, run the
@@ -146,11 +146,13 @@ taxonomy/count metadata, but it does not submit downloads or change occurrence
 inputs:
 
 ```r
+sdm_external_root <- Sys.getenv("SDM_EXTERNAL_ROOT", unset = "/Volumes/LaCie/pathogen-sdms")
+
 batch_config <- list(
   target_manifest_path = "sdms/runs/vector_sdm_push/vector_species_sdm_targets.csv",
-  occurrence_root = "/Volumes/LaCie/new_global_maxent/sdms/runs_artur/vector_sdm_push/occurrences",
-  request_manifest_path = "/Volumes/LaCie/new_global_maxent/sdms/runs_artur/vector_sdm_push/gbif_download_requests.csv",
-  audit_run_root = "/Volumes/LaCie/new_global_maxent/sdms/runs_artur/vector_sdm_push/gbif_synonym_audit_runs",
+  occurrence_root = file.path(sdm_external_root, "runs_artur", "vector_sdm_push", "occurrences"),
+  request_manifest_path = file.path(sdm_external_root, "runs_artur", "vector_sdm_push", "gbif_download_requests.csv"),
+  audit_run_root = file.path(sdm_external_root, "runs_artur", "vector_sdm_push", "gbif_synonym_audit_runs"),
   roles = "vector",
   query_gbif_api = FALSE,
   query_gbif_counts = FALSE,

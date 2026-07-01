@@ -6,7 +6,7 @@ ready SDM rasters from the consolidated SDM bundle.
 Default bundle root:
 
 ```text
-/Volumes/LaCie/new_global_maxent/sdms/consolidated_ready_sdms_20260630
+READY_SDM_BUNDLE_ROOT, or /Volumes/LaCie/pathogen-sdms/consolidated_ready_sdms_20260630
 ```
 
 When this `scripts/interface/` folder is copied inside a consolidated SDM bundle,

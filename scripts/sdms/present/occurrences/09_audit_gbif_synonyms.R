@@ -42,13 +42,14 @@ if (!exists("batch_config", inherits = FALSE)) {
 # 2. Internal defaults ----
 # -----------------------------------------------------------------------------|
 
-lacie_vector_root <- "/Volumes/LaCie/new_global_maxent/sdms/runs_artur/vector_sdm_push"
+sdm_external_root <- Sys.getenv("SDM_EXTERNAL_ROOT", unset = "/Volumes/LaCie/pathogen-sdms")
+external_vector_root <- file.path(sdm_external_root, "runs_artur", "vector_sdm_push")
 
 default_batch_config <- list(
   target_manifest_path = file.path(repo_root(), "sdms", "runs", "vector_sdm_push", "vector_species_sdm_targets.csv"),
-  occurrence_root = file.path(lacie_vector_root, "occurrences"),
-  request_manifest_path = file.path(lacie_vector_root, "gbif_download_requests.csv"),
-  audit_run_root = file.path(lacie_vector_root, "gbif_synonym_audit_runs"),
+  occurrence_root = file.path(external_vector_root, "occurrences"),
+  request_manifest_path = file.path(external_vector_root, "gbif_download_requests.csv"),
+  audit_run_root = file.path(external_vector_root, "gbif_synonym_audit_runs"),
   roles = "vector",
   include_not_needed = FALSE,
   include_already_available = TRUE,
@@ -95,8 +96,8 @@ if (!file.exists(target_manifest_path)) {
 
 if (!dir.exists(occurrence_root)) {
   stop(
-    "LaCie occurrence root not found: ", occurrence_root, "\n",
-    "Mount the external drive or set `batch_config$occurrence_root` explicitly.",
+    "External occurrence root not found: ", occurrence_root, "\n",
+    "Mount the external drive, set SDM_EXTERNAL_ROOT, or set `batch_config$occurrence_root` explicitly.",
     call. = FALSE
   )
 }

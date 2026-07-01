@@ -14,11 +14,14 @@ suppressPackageStartupMessages({
 
 source(file.path(here::here(), "scripts", "sdms", "present", "utils.R"))
 
+sdm_external_root <- Sys.getenv("SDM_EXTERNAL_ROOT", unset = "/Volumes/LaCie/pathogen-sdms")
+external_vector_root <- file.path(sdm_external_root, "runs_artur", "vector_sdm_push")
+
 default_config <- list(
-  delivery_root = "/Volumes/LaCie/new_global_maxent/sdms/delivery/chikungunya_vector_sdm_delivery_20260609",
-  main_batch_summary = "/Volumes/LaCie/new_global_maxent/sdms/runs_artur/vector_sdm_push/model_batch_runs/20260608T123347Z_pid36613/model_batch_summary.csv",
-  diagnostic_batch_summary = "/Volumes/LaCie/new_global_maxent/sdms/runs_artur/vector_sdm_push/model_batch_runs/20260609T110743Z_pid22794/model_batch_summary.csv",
-  host_model_root = "/Volumes/LaCie/new_global_maxent/sdms/models",
+  delivery_root = file.path(sdm_external_root, "delivery", "chikungunya_vector_sdm_delivery_20260609"),
+  main_batch_summary = file.path(external_vector_root, "model_batch_runs", "20260608T123347Z_pid36613", "model_batch_summary.csv"),
+  diagnostic_batch_summary = file.path(external_vector_root, "model_batch_runs", "20260609T110743Z_pid22794", "model_batch_summary.csv"),
+  host_model_root = file.path(sdm_external_root, "models"),
   predictor_stack_path = file.path(here::here(), "sdms", "cache", "Resample_rast.tif"),
   readiness_root = file.path(here::here(), "pathogen_association_data", "readiness"),
   make_zip = TRUE,

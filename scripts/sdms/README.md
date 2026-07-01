@@ -17,6 +17,6 @@ readiness outputs:
 Rscript scripts/sdms/present_future/01_catalog_models.R
 ```
 
-By default, the catalogue uses the consolidated ready-SDM folder on LaCie when
-it is present:
-`/Volumes/LaCie/new_global_maxent/sdms/consolidated_ready_sdms_20260630`.
+By default, the catalogue uses `READY_SDM_BUNDLE_ROOT` when set. Otherwise, it
+looks under `SDM_EXTERNAL_ROOT`, defaulting to:
+`/Volumes/LaCie/pathogen-sdms/consolidated_ready_sdms_20260630`.

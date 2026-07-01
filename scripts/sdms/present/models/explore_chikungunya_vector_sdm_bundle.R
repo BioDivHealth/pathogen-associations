@@ -66,7 +66,12 @@ detect_bundle_root <- function() {
 
   candidates <- c(candidates, getwd())
 
-  default_delivery_root <- "/Volumes/LaCie/new_global_maxent/sdms/delivery/chikungunya_vector_sdm_delivery_20260609"
+  sdm_external_root <- Sys.getenv("SDM_EXTERNAL_ROOT", unset = "/Volumes/LaCie/pathogen-sdms")
+  default_delivery_root <- file.path(
+    sdm_external_root,
+    "delivery",
+    "chikungunya_vector_sdm_delivery_20260609"
+  )
   if (dir.exists(default_delivery_root)) {
     candidates <- c(candidates, default_delivery_root)
   }

@@ -11,11 +11,14 @@ suppressPackageStartupMessages({
   }
 })
 
+sdm_external_root <- Sys.getenv("SDM_EXTERNAL_ROOT", unset = "/Volumes/LaCie/pathogen-sdms")
+external_vector_root <- file.path(sdm_external_root, "runs_artur", "vector_sdm_push")
+
 batch_config <- list(
   target_manifest_path = "sdms/runs/vector_sdm_push/vector_species_sdm_targets.csv",
-  occurrence_root = "/Volumes/LaCie/new_global_maxent/sdms/runs_artur/vector_sdm_push/occurrences",
-  model_output_root = "/Volumes/LaCie/new_global_maxent/sdms/models_artur/vector_sdm_push",
-  model_batch_run_root = "/Volumes/LaCie/new_global_maxent/sdms/runs_artur/vector_sdm_push/model_batch_runs",
+  occurrence_root = file.path(external_vector_root, "occurrences"),
+  model_output_root = file.path(sdm_external_root, "models_artur", "vector_sdm_push"),
+  model_batch_run_root = file.path(external_vector_root, "model_batch_runs"),
 
   roles = "vector",
   occurrence_method = "combined",

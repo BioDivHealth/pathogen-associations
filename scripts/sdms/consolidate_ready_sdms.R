@@ -2,7 +2,7 @@
 ################################################################################
 # consolidate_ready_sdms.R
 ################################################################################
-# Purpose: Copy complete host/vector SDM deliverables into one LaCie folder,
+# Purpose: Copy complete host/vector SDM deliverables into one external folder,
 #          keeping one preferred model per species and recording provenance.
 #
 # Usage from repo root:
@@ -15,9 +15,17 @@
 # ------------------------------------------------------------------------------
 #      Configuration ------------------------------------------------------------
 # ------------------------------------------------------------------------------
+sdm_external_root <- Sys.getenv("SDM_EXTERNAL_ROOT", unset = "/Volumes/LaCie/pathogen-sdms")
+
 default_config <- list(
-  target_root = "/Volumes/LaCie/new_global_maxent/sdms/consolidated_ready_sdms_20260630",
-  gonzalo_model_root = "/Volumes/LaCie/new_global_maxent/sdms/models",
+  target_root = Sys.getenv(
+    "READY_SDM_BUNDLE_ROOT",
+    unset = file.path(sdm_external_root, "consolidated_ready_sdms_20260630")
+  ),
+  gonzalo_model_root = Sys.getenv(
+    "GONZALO_MODEL_ROOT",
+    unset = file.path(sdm_external_root, "models")
+  ),
   gonzalo_prediction_root = "/Volumes/LaCie/gonzalo_host_prediction_outputs_20260629/hosts_gonzalo_predictions",
   server_result_root = "/Volumes/LaCie/host_vector_sdm_results_20260624",
   dry_run = TRUE,

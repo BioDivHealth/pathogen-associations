@@ -79,14 +79,16 @@ update_if_present <- function(data, idx, col, value) {
 }
 
 repo_root <- normalizePath(getwd(), winslash = "/", mustWork = TRUE)
+sdm_external_root <- Sys.getenv("SDM_EXTERNAL_ROOT", unset = "/Volumes/LaCie/pathogen-sdms")
+external_vector_root <- file.path(sdm_external_root, "runs_artur", "vector_sdm_push")
 runner_root <- get_arg("runner-root", "/Volumes/LaCie/host_vector_sdm_runner")
 vector_source_root <- get_arg(
   "vector-source-root",
-  "/Volumes/LaCie/new_global_maxent/sdms/runs_artur/vector_sdm_push/occurrences"
+  file.path(external_vector_root, "occurrences")
 )
 vector_local_manifest <- get_arg(
   "vector-local-source-manifest",
-  "/Volumes/LaCie/new_global_maxent/sdms/runs_artur/vector_sdm_push/local_vector_occurrence_sources_manifest.csv"
+  file.path(external_vector_root, "local_vector_occurrence_sources_manifest.csv")
 )
 
 start_year <- as.integer(get_arg("start-year", "2000"))

@@ -6,7 +6,8 @@
 #          ready SDMs and build lightweight lookup tables for disease/species
 #          selection and raster loading.
 #
-# Output : /Volumes/LaCie/new_global_maxent/sdms/consolidated_ready_sdms_20260630/
+# Output : READY_SDM_BUNDLE_ROOT, defaulting to
+#          /Volumes/LaCie/pathogen-sdms/consolidated_ready_sdms_20260630/
 #            readiness/
 #              disease_modelling_*.csv
 #              disease_modelling_pilot_package/
@@ -30,9 +31,10 @@ pacman::p_load(dplyr, readr, stringr, tibble)
 #      Configuration ------------------------------------------------------------
 # ------------------------------------------------------------------------------
 repo_root <- normalizePath(here::here(), winslash = "/", mustWork = TRUE)
+sdm_external_root <- Sys.getenv("SDM_EXTERNAL_ROOT", unset = "/Volumes/LaCie/pathogen-sdms")
 bundle_root <- Sys.getenv(
   "READY_SDM_BUNDLE_ROOT",
-  unset = "/Volumes/LaCie/new_global_maxent/sdms/consolidated_ready_sdms_20260630"
+  unset = file.path(sdm_external_root, "consolidated_ready_sdms_20260630")
 )
 bundle_root <- normalizePath(bundle_root, winslash = "/", mustWork = TRUE)
 

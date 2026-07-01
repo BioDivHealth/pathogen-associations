@@ -36,9 +36,10 @@ source(here::here(
 # ------------------------------------------------------------------------------|
 repo_package_dir <- file.path(readiness_dir, "disease_modelling_pilot_package")
 output_dir <- file.path(readiness_dir, "evidence_tiers")
+sdm_external_root <- Sys.getenv("SDM_EXTERNAL_ROOT", unset = "/Volumes/LaCie/pathogen-sdms")
 chikungunya_delivery_dir <- Sys.getenv(
   "CHIKUNGUNYA_DELIVERY_DIR",
-  unset = "/Volumes/LaCie/new_global_maxent/sdms/delivery/chikungunya_vector_sdm_delivery_20260609"
+  unset = file.path(sdm_external_root, "delivery", "chikungunya_vector_sdm_delivery_20260609")
 )
 delivery_package_dir <- file.path(chikungunya_delivery_dir, "readiness", "disease_modelling_pilot_package")
 
