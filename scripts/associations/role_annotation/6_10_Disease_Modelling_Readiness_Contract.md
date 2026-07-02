@@ -67,6 +67,7 @@ The script writes these tracked readiness surfaces under
 - `disease_modelling_pilot_package/pilot_vectors.csv`
 - `disease_modelling_pilot_package/pilot_countries.csv`
 - `disease_modelling_pilot_package/pilot_sdm_species.csv`
+- `disease_modelling_pilot_package/pilot_sdm_species_role_ready.csv`
 - `disease_modelling_pilot_package/pilot_evidence_summary.csv`
 - `disease_modelling_pilot_package/README.md`
 - `disease_modelling_pilot_package.rds`
@@ -75,19 +76,20 @@ The script writes these tracked readiness surfaces under
 ## Current Invariant Baseline
 
 Current schema and row-count baseline after the readiness helper split,
-scope-based script move, and the master-plus compatibility migration for
-role-roster inputs:
+scope-based script move, the master-plus compatibility migration for
+role-roster inputs, and the compact role-ready SDM companion table:
 
 | Output | Rows | Columns |
 | --- | ---: | ---: |
 | `disease_modelling_readiness.csv` | 88 | 30 |
 | `disease_modelling_readiness_full.csv` | 90 | 135 |
 | `disease_modelling_pilot.csv` | 31 | 34 |
-| `disease_modelling_pilot_package/manifest.csv` | 6 | 6 |
-| `disease_modelling_pilot_package/pilot_hosts.csv` | 2235 | 18 |
+| `disease_modelling_pilot_package/manifest.csv` | 7 | 6 |
+| `disease_modelling_pilot_package/pilot_hosts.csv` | 2250 | 18 |
 | `disease_modelling_pilot_package/pilot_vectors.csv` | 448 | 26 |
 | `disease_modelling_pilot_package/pilot_countries.csv` | 1188 | 16 |
-| `disease_modelling_pilot_package/pilot_sdm_species.csv` | 2683 | 17 |
+| `disease_modelling_pilot_package/pilot_sdm_species.csv` | 2698 | 17 |
+| `disease_modelling_pilot_package/pilot_sdm_species_role_ready.csv` | 2698 | 32 |
 | `disease_modelling_pilot_package/pilot_evidence_summary.csv` | 31 | 73 |
 
 Host-role fields are part of the current baseline for `pilot_hosts.csv` and
@@ -106,9 +108,13 @@ Vector-role fields are part of the current baseline for `pilot_vectors.csv` and
 - `vector_role_needs_manual_review`
 - `vector_role_assignment_status`
 
+`pilot_sdm_species_role_ready.csv` is the compact role-enriched companion to
+`pilot_sdm_species.csv`. It carries generated host/vector role buckets, selected
+proxy and review fields, biological evidence tiers, and SDM availability.
+
 ## Package Manifest
 
-The package manifest must contain exactly six rows, one for each package data
+The package manifest must contain exactly seven rows, one for each package data
 table:
 
 - `disease_modelling_pilot`
@@ -116,6 +122,7 @@ table:
 - `pilot_vectors`
 - `pilot_countries`
 - `pilot_sdm_species`
+- `pilot_sdm_species_role_ready`
 - `pilot_evidence_summary`
 
 Manifest columns must remain:

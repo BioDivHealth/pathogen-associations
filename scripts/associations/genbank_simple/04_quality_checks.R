@@ -206,13 +206,6 @@ target_qa <- manifest_for_qa %>%
   select(-current_target_id) %>%
   left_join(
     search_logs_for_join %>%
-      mutate(
-        status = if_else(
-          status == "skipped_records_found_exceeds_limit",
-          status,
-          status
-        )
-      ) %>%
       select(
         target_id,
         query_used_log = query_used,

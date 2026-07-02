@@ -59,11 +59,14 @@ Rscript scripts/associations/readiness/02_build_modelling_evidence_tiers_handoff
   the same build.
 - `disease_modelling_pilot_package/` is the generated pilot package folder. The
   pilot table is the spine, and companion CSVs expose host, vector, country,
-  SDM-species, and evidence-summary layers keyed by `analysis_unit_id`.
+  SDM-species, role-ready SDM-species, and evidence-summary layers keyed by
+  `analysis_unit_id`.
   `pilot_sdm_species.csv` treats
   `pathogen_association_data/readiness/sdm_catalog/accessible_sdm_species.csv`
   as the preferred SDM availability import, with the transitional
   `sdms/outputs/catalog/accessible_sdm_species.csv` path retained as fallback.
+  `pilot_sdm_species_role_ready.csv` is a compact role-enriched companion to
+  `pilot_sdm_species.csv` for model-input review.
 - `disease_modelling_pilot_package.rds` and
   `disease_modelling_pilot_package.xlsx` are convenience versions of the same
   pilot package tables.

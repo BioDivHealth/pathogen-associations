@@ -350,68 +350,62 @@ prefer_existing_path <- function(primary, fallback) {
   fallback
 }
 
-vector_screening_manual_path <- function(filename) {
-  prefer_existing_path(
-    file.path(vector_screening_manual_dir, filename),
-    file.path(vector_screening_legacy_input_dir, filename)
-  )
+make_prefer_existing_path_fn <- function(primary_dir, fallback_dir) {
+  force(primary_dir)
+  force(fallback_dir)
+
+  function(filename) {
+    prefer_existing_path(
+      file.path(primary_dir, filename),
+      file.path(fallback_dir, filename)
+    )
+  }
 }
 
-vector_screening_efsa_source_path <- function(filename) {
-  prefer_existing_path(
-    file.path(vector_screening_efsa_source_dir, filename),
-    file.path(vector_screening_legacy_efsa_input_dir, filename)
-  )
-}
+vector_screening_manual_path <- make_prefer_existing_path_fn(
+  vector_screening_manual_dir,
+  vector_screening_legacy_input_dir
+)
 
-vector_screening_efsa_manual_path <- function(filename) {
-  prefer_existing_path(
-    file.path(vector_screening_efsa_manual_dir, filename),
-    file.path(vector_screening_legacy_efsa_manual_dir, filename)
-  )
-}
+vector_screening_efsa_source_path <- make_prefer_existing_path_fn(
+  vector_screening_efsa_source_dir,
+  vector_screening_legacy_efsa_input_dir
+)
 
-vector_screening_efsa_staged_path <- function(filename) {
-  prefer_existing_path(
-    file.path(vector_screening_efsa_outputs_dir, filename),
-    file.path(vector_screening_legacy_efsa_outputs_dir, filename)
-  )
-}
+vector_screening_efsa_manual_path <- make_prefer_existing_path_fn(
+  vector_screening_efsa_manual_dir,
+  vector_screening_legacy_efsa_manual_dir
+)
 
-vector_screening_staged_path <- function(filename) {
-  prefer_existing_path(
-    file.path(vector_screening_staged_outputs_dir, filename),
-    file.path(vector_screening_legacy_outputs_dir, filename)
-  )
-}
+vector_screening_efsa_staged_path <- make_prefer_existing_path_fn(
+  vector_screening_efsa_outputs_dir,
+  vector_screening_legacy_efsa_outputs_dir
+)
 
-vector_screening_evidence_path <- function(filename) {
-  prefer_existing_path(
-    file.path(vector_screening_evidence_dir, filename),
-    file.path(vector_screening_legacy_outputs_dir, filename)
-  )
-}
+vector_screening_staged_path <- make_prefer_existing_path_fn(
+  vector_screening_staged_outputs_dir,
+  vector_screening_legacy_outputs_dir
+)
 
-vector_screening_qa_path <- function(filename) {
-  prefer_existing_path(
-    file.path(vector_screening_qa_dir, filename),
-    file.path(vector_screening_legacy_outputs_dir, filename)
-  )
-}
+vector_screening_evidence_path <- make_prefer_existing_path_fn(
+  vector_screening_evidence_dir,
+  vector_screening_legacy_outputs_dir
+)
 
-vector_screening_taxonomy_manual_path <- function(filename) {
-  prefer_existing_path(
-    file.path(vector_screening_taxonomy_manual_dir, filename),
-    file.path(vector_screening_legacy_taxonomy_review_dir, filename)
-  )
-}
+vector_screening_qa_path <- make_prefer_existing_path_fn(
+  vector_screening_qa_dir,
+  vector_screening_legacy_outputs_dir
+)
 
-vector_screening_taxonomy_review_path <- function(filename) {
-  prefer_existing_path(
-    file.path(vector_screening_taxonomy_review_dir, filename),
-    file.path(vector_screening_legacy_taxonomy_review_dir, filename)
-  )
-}
+vector_screening_taxonomy_manual_path <- make_prefer_existing_path_fn(
+  vector_screening_taxonomy_manual_dir,
+  vector_screening_legacy_taxonomy_review_dir
+)
+
+vector_screening_taxonomy_review_path <- make_prefer_existing_path_fn(
+  vector_screening_taxonomy_review_dir,
+  vector_screening_legacy_taxonomy_review_dir
+)
 
 who_network_source_component_path <- function(filename) {
   file.path(who_networks_source_components_dir, filename)

@@ -24,7 +24,6 @@ source(here(
   "legacy_who_compatibility_helpers.R"
 ))
 
-load(file = "scripts/functions/wrld_simpl2.R")
 source("scripts/New_functions/get_synonyms.R")
 iucn_redlist_key <- Sys.getenv("IUCN_REDLIST_KEY", unset = Sys.getenv("IUCN_API_KEY", unset = ""))
 if (nzchar(iucn_redlist_key)) {

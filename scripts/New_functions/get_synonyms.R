@@ -70,53 +70,6 @@ get_synonyms <- function(genus, species, infra = NULL,
     syns
 }
 
-safe_rl_species_latest <- function(genus, species,
-                                   infra = NULL, subpopulation = NULL,
-                                   key = NULL, parse = TRUE) {
-    assess <- rredlist::rl_species(genus, species,
-        infra = infra
-    )$assessments
-
-    assess$year_published <- as.numeric(assess$year_published)
-
-    if (any(assess$latest, na.rm = TRUE)) {
-        assess <- subset(assess, assess$latest)
-    }
-
-    # Fallback when nothing is flagged
-    if (nrow(as.data.frame(assess)) == 0) {
-        warning("No assessment marked 'latest'; using most recent year")
-        assess <- assess[order(assess$year_published, decreasing = TRUE), , drop = FALSE]
-    }
-
-    rredlist::rl_assessment(
-        id = assess$assessment_id[1],
-        key = key,
-        parse = parse, ...
-    )
-}
-
-
-rl_species_latest <- function(genus, species, infra = NULL,
-                              subpopulation = NULL,
-                              key = NULL, parse = TRUE) {
-    tmp <- rl_species(genus, species,
-        infra = infra,
-        subpopulation = subpopulation
-    )$assessments
-    if (any(tmp$latest, na.rm = TRUE)) {
-        tmp <- subset(tmp, tmp$latest)
-    }
-    if (length(tmp) == 0) {
-        stop("No assessments found for this species.")
-    }
-    tmp$year_published <- as.numeric(as.character(tmp$year_published))
-    ord <- order(tmp$year_published, decreasing = TRUE)
-    tmp <- tmp[ord, , drop = FALSE]
-    rl_assessment(id = tmp$assessment_id[1], key = key, parse = parse)
-}
-
-
 # IUCN_get_data function
 IUCN_get_data <- function(g, b, genus, species, infra = NULL, n_times = 3) {
     IUCN_id <- NA

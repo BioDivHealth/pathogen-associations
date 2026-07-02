@@ -400,6 +400,14 @@ flag_cols <- c(
   "has_substantive_vector_role_evidence"
 )
 
+join_status_cols <- c(
+  "evidence_qa_join_status",
+  "direct_vector_join_status",
+  "genbank_join_status",
+  "who_don_join_status",
+  "sdm_join_status"
+)
+
 readiness <- readiness %>%
   add_missing_count_cols(count_cols) %>%
   add_missing_flag_cols(flag_cols) %>%
@@ -426,33 +434,15 @@ readiness <- readiness %>%
     ),
     evidence_join_status = case_when(
       if_any(
-        all_of(c(
-          "evidence_qa_join_status",
-          "direct_vector_join_status",
-          "genbank_join_status",
-          "who_don_join_status",
-          "sdm_join_status"
-        )),
+        all_of(join_status_cols),
         ~ .x == "matched_primary_name"
       ) ~ "matched_primary_name",
       if_any(
-        all_of(c(
-          "evidence_qa_join_status",
-          "direct_vector_join_status",
-          "genbank_join_status",
-          "who_don_join_status",
-          "sdm_join_status"
-        )),
+        all_of(join_status_cols),
         ~ .x == "matched_alternate_name"
       ) ~ "matched_alternate_name",
       if_any(
-        all_of(c(
-          "evidence_qa_join_status",
-          "direct_vector_join_status",
-          "genbank_join_status",
-          "who_don_join_status",
-          "sdm_join_status"
-        )),
+        all_of(join_status_cols),
         ~ .x == "ambiguous_not_joined"
       ) ~ "ambiguous_not_joined",
       TRUE ~ "unmatched_no_evidence"
@@ -823,7 +813,12 @@ sdm_species_summary <- if (is.null(accessible_sdm_species) || !"species" %in% na
 }
 
 sdm_projection_summary <- if (is.null(sdm_projections)) {
-  tibble(species_key = character())
+  tibble(
+    species_key = character(),
+    sdm_projection_runs = integer(),
+    sdm_projection_success_runs = integer(),
+    sdm_projection_scenarios = character()
+  )
 } else {
   sdm_projections %>%
     mutate(
@@ -840,7 +835,12 @@ sdm_projection_summary <- if (is.null(sdm_projections)) {
 }
 
 sdm_comparison_summary <- if (is.null(sdm_comparisons)) {
-  tibble(species_key = character())
+  tibble(
+    species_key = character(),
+    sdm_comparison_runs = integer(),
+    sdm_comparison_success_runs = integer(),
+    sdm_comparison_scenarios = character()
+  )
 } else {
   sdm_comparisons %>%
     mutate(
