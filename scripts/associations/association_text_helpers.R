@@ -60,11 +60,32 @@ append_vector_cleanup_method <- function(current, new_method) {
   )
 }
 
-apply_vector_name_cleanup <- function(x, manual_map = NULL) {
+format_vector_cleanup_name <- function(x, name_case = c("lower", "sentence")) {
+  name_case <- match.arg(name_case)
+
+  if (name_case == "lower") {
+    return(x)
+  }
+
+  dplyr::if_else(
+    is.na(x),
+    NA_character_,
+    stringr::str_replace(x, "^([a-z])", ~ stringr::str_to_upper(.x))
+  )
+}
+
+apply_vector_name_cleanup <- function(
+  x,
+  manual_map = NULL,
+  unchanged_method = "normalized_name",
+  name_case = c("lower", "sentence")
+) {
+  name_case <- match.arg(name_case)
   cleaned <- ascii_transliterate_text(x)
   cleaned <- stringr::str_replace_all(cleaned, "[/|_\\\\]+", " ")
   cleaned <- stringr::str_to_lower(cleaned)
   cleaned <- stringr::str_squish(cleaned)
+  cleaned[cleaned %in% c("na", "nan", "no data", "null")] <- NA_character_
   cleaned[cleaned == ""] <- NA_character_
 
   method <- rep(NA_character_, length(cleaned))
@@ -176,10 +197,10 @@ apply_vector_name_cleanup <- function(x, manual_map = NULL) {
     method[has_manual_map] <- manual_method[matched_idx[has_manual_map]]
   }
 
-  method[is.na(method) & !is.na(cleaned)] <- "normalized_name"
+  method[is.na(method) & !is.na(cleaned)] <- unchanged_method
 
   tibble::tibble(
-    vector_name_cleaned = cleaned,
+    vector_name_cleaned = format_vector_cleanup_name(cleaned, name_case),
     vector_join_key = normalize_vector_key(cleaned),
     vector_name_cleanup_method = method
   )

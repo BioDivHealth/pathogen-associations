@@ -19,40 +19,7 @@ library(pacman)
 p_load(dplyr, here, readr, stringr, tibble)
 
 source(here("scripts", "associations", "working_inputs.R"))
-
-clean_text <- function(x) {
-  x <- as.character(x)
-  x[x %in% c("", "NA", "NaN", "No data", "null", "Null")] <- NA_character_
-  x <- stringr::str_replace_all(x, "\u00A0", " ")
-  x <- stringr::str_replace_all(x, "[\r\n\t]+", " ")
-  x <- stringr::str_squish(x)
-  x[x == ""] <- NA_character_
-  x
-}
-
-collapse_unique <- function(x) {
-  x <- clean_text(x)
-  x <- sort(unique(stats::na.omit(x)))
-
-  if (length(x) == 0) {
-    return(NA_character_)
-  }
-
-  paste(x, collapse = "; ")
-}
-
-normalize_vector_key <- function(x) {
-  x <- clean_text(x)
-
-  transliterated <- suppressWarnings(iconv(x, from = "", to = "ASCII//TRANSLIT"))
-  transliterated[is.na(transliterated)] <- x[is.na(transliterated)]
-
-  transliterated %>%
-    stringr::str_to_lower() %>%
-    stringr::str_replace_all("[^a-z0-9() .-]+", " ") %>%
-    stringr::str_squish() %>%
-    dplyr::na_if("")
-}
+source(here("scripts", "associations", "association_text_helpers.R"))
 
 count_vector_words <- function(x) {
   cleaned <- clean_text(x)
@@ -119,100 +86,6 @@ classify_vector_taxon_rank <- function(x) {
     count_vector_words(x) == 2L ~ "species",
     TRUE ~ "infraspecific"
   )
-}
-
-append_method <- function(methods, new_method) {
-  if (length(methods) == 0) {
-    return(new_method)
-  }
-
-  paste(c(methods, new_method), collapse = "; ")
-}
-
-apply_rule_cleanup <- function(x) {
-  parsed <- lapply(clean_text(x), function(value) {
-    if (is.na(value)) {
-      return(list(
-        vector_name_rule_cleaned = NA_character_,
-        vector_cleanup_method = "missing"
-      ))
-    }
-
-    cleaned <- stringr::str_replace_all(value, "_", " ")
-    cleaned <- stringr::str_squish(cleaned)
-    methods <- character(0)
-
-    tokens <- stringr::str_split(cleaned, "\\s+", simplify = TRUE)
-    tokens <- tokens[tokens != ""]
-
-    if (length(tokens) >= 2 && stringr::str_to_lower(tokens[[1]]) == stringr::str_to_lower(tokens[[2]])) {
-      tokens <- tokens[-2]
-      cleaned <- paste(tokens, collapse = " ")
-      methods <- append_method(methods, "rule_repeated_genus")
-    }
-
-    cleaned_key <- stringr::str_to_lower(cleaned)
-
-    if (stringr::str_detect(cleaned, "^[A-Za-z-]+ \\([A-Za-z-]+\\)\\s+")) {
-      cleaned <- stringr::str_replace(
-        cleaned,
-        "^([A-Za-z-]+) \\([A-Za-z-]+\\)\\s+",
-        "\\1 "
-      )
-      methods <- append_method(methods, "rule_drop_parenthetical_subgenus")
-      cleaned_key <- stringr::str_to_lower(cleaned)
-    }
-
-    if (stringr::str_detect(cleaned_key, "^aedes (ochlerotatus|neomelaniconion)\\b")) {
-      cleaned <- stringr::str_replace(
-        cleaned,
-        regex("^aedes (ochlerotatus|neomelaniconion)\\s+", ignore_case = TRUE),
-        "Aedes "
-      )
-      methods <- append_method(methods, "rule_drop_subgenus_token")
-      cleaned_key <- stringr::str_to_lower(cleaned)
-    }
-
-    if (stringr::str_detect(cleaned_key, "^culex melanoconion\\b")) {
-      cleaned <- stringr::str_replace(
-        cleaned,
-        regex("^culex melanoconion\\s+", ignore_case = TRUE),
-        "Culex "
-      )
-      methods <- append_method(methods, "rule_drop_subgenus_token")
-    }
-
-    tokens <- stringr::str_split(cleaned, "\\s+", simplify = TRUE)
-    tokens <- tokens[tokens != ""]
-
-    if (length(tokens) >= 3) {
-      author_start <- which(
-        seq_along(tokens) >= 3 &
-          (
-            stringr::str_detect(tokens, "[A-Z]") |
-              stringr::str_detect(tokens, "^[12][0-9]{3}$")
-          )
-      )
-
-      if (length(author_start) > 0) {
-        cleaned <- paste(tokens[seq_len(author_start[[1]] - 1)], collapse = " ")
-        methods <- append_method(methods, "rule_strip_authorship_suffix")
-      }
-    }
-
-    cleaned <- stringr::str_squish(cleaned)
-
-    list(
-      vector_name_rule_cleaned = cleaned,
-      vector_cleanup_method = if (length(methods) == 0) "no_change" else methods
-    )
-  })
-
-  tibble(
-    vector_name_rule_cleaned = vapply(parsed, `[[`, character(1), "vector_name_rule_cleaned"),
-    vector_cleanup_method = vapply(parsed, `[[`, character(1), "vector_cleanup_method")
-  ) %>%
-    mutate(across(everything(), ~ dplyr::na_if(.x, "")))
 }
 
 seed_manual_map <- function(path) {
@@ -303,7 +176,15 @@ vectormap_links <- vectormap_links %>%
     vector_name_clean = clean_text(vector_name_working)
   )
 
-rule_cleaned <- apply_rule_cleanup(vectormap_links$vector_name_clean)
+rule_cleaned <- apply_vector_name_cleanup(
+  vectormap_links$vector_name_clean,
+  unchanged_method = "no_change",
+  name_case = "sentence"
+) %>%
+  transmute(
+    vector_name_rule_cleaned = vector_name_cleaned,
+    vector_cleanup_method = vector_name_cleanup_method
+  )
 
 taxonomy_cleaned <- vectormap_links %>%
   bind_cols(rule_cleaned) %>%

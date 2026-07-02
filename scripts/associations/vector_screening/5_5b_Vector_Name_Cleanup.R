@@ -15,27 +15,7 @@ library(pacman)
 p_load(dplyr, here, readr, stringr)
 
 source(here("scripts", "associations", "working_inputs.R"))
-
-clean_text <- function(x) {
-  x <- as.character(x)
-  x[x %in% c("NA", "NaN")] <- NA_character_
-  x <- stringr::str_replace_all(x, "\u00A0", " ")
-  x <- stringr::str_replace_all(x, "[\r\n\t]+", " ")
-  x <- stringr::str_squish(x)
-  x[x == ""] <- NA_character_
-  x
-}
-
-collapse_unique <- function(x) {
-  x <- clean_text(x)
-  x <- sort(unique(stats::na.omit(x)))
-
-  if (length(x) == 0) {
-    return(NA_character_)
-  }
-
-  paste(x, collapse = "; ")
-}
+source(here("scripts", "associations", "association_text_helpers.R"))
 
 classify_vector_taxon_rank <- function(x) {
   x <- clean_text(x)
@@ -51,50 +31,6 @@ classify_vector_taxon_rank <- function(x) {
     stringr::str_count(x, "\\S+") == 1 ~ "genus_only",
     stringr::str_count(x, "\\S+") == 2 ~ "species",
     TRUE ~ "infraspecific"
-  )
-}
-
-apply_rule_cleanup <- function(x) {
-  x <- clean_text(x)
-  method <- rep("no_change", length(x))
-  cleaned <- x
-
-  repeated_genus <- !is.na(cleaned) &
-    stringr::str_detect(cleaned, "^([a-z]+) \\1\\b")
-  if (any(repeated_genus)) {
-    cleaned[repeated_genus] <- stringr::str_replace(
-      cleaned[repeated_genus],
-      "^([a-z]+) \\1\\s+",
-      "\\1 "
-    )
-    method[repeated_genus] <- "rule_repeated_genus"
-  }
-
-  aedes_subgenus <- !is.na(cleaned) &
-    stringr::str_detect(cleaned, "^aedes (ochlerotatus|neomelaniconion)\\b")
-  if (any(aedes_subgenus)) {
-    cleaned[aedes_subgenus] <- stringr::str_replace(
-      cleaned[aedes_subgenus],
-      "^aedes (ochlerotatus|neomelaniconion)\\s+",
-      "aedes "
-    )
-    method[aedes_subgenus] <- "rule_drop_subgenus_token"
-  }
-
-  culex_subgenus <- !is.na(cleaned) &
-    stringr::str_detect(cleaned, "^culex melanoconion\\b")
-  if (any(culex_subgenus)) {
-    cleaned[culex_subgenus] <- stringr::str_replace(
-      cleaned[culex_subgenus],
-      "^culex melanoconion\\s+",
-      "culex "
-    )
-    method[culex_subgenus] <- "rule_drop_subgenus_token"
-  }
-
-  tibble::tibble(
-    vector_species_rule_cleaned = cleaned,
-    taxonomy_cleanup_method = method
   )
 }
 
@@ -167,10 +103,17 @@ if (length(missing_map_cols) > 0) {
 }
 
 manual_map <- manual_map %>%
-  mutate(source_name = stringr::str_to_lower(source_name)) %>%
+  mutate(source_name = normalize_vector_key(source_name)) %>%
   distinct(source_name, .keep_all = TRUE)
 
-rule_cleaned <- apply_rule_cleanup(disease_vector_links$vector_species_clean)
+rule_cleaned <- apply_vector_name_cleanup(
+  disease_vector_links$vector_species_clean,
+  unchanged_method = "no_change"
+) %>%
+  transmute(
+    vector_species_rule_cleaned = vector_name_cleaned,
+    taxonomy_cleanup_method = vector_name_cleanup_method
+  )
 
 suspect_names <- c(
   "hyalomma onatoli",
@@ -180,12 +123,12 @@ suspect_names <- c(
 taxonomy_cleaned <- disease_vector_links %>%
   bind_cols(rule_cleaned) %>%
   mutate(
-    vector_species_map_key = stringr::str_to_lower(vector_species_rule_cleaned)
+    vector_species_map_key = normalize_vector_key(vector_species_rule_cleaned)
   ) %>%
   left_join(
     manual_map %>%
       transmute(
-        source_name = stringr::str_to_lower(source_name),
+        source_name,
         manual_canonical_name = canonical_name,
         manual_vector_taxon_rank = vector_taxon_rank,
         manual_cleanup_method = cleanup_method,
@@ -279,25 +222,3 @@ cat(
 cat("Wrote cleaned table to", output_path, "\n")
 cat("Wrote review table to", review_path, "\n")
 cat("Manual map path:", manual_map_path, "\n")
-
-# Check with taxonomic packages----------------------
-sp = taxonomy_cleaned$vector_species[1]
-
-p_load(here, rgbif, taxize, raster, dismo, 
-       doParallel, rJava, XML, rgbif, Hmisc, readr, 
-       stringr, purrr, dplyr, tidyr, magrittr, tidyverse)
-
-source(here("scripts", "New_functions", "get_synonyms.R"))
-iucn_redlist_key <- Sys.getenv("IUCN_REDLIST_KEY", unset = Sys.getenv("IUCN_API_KEY", unset = ""))
-if (nzchar(iucn_redlist_key)) {
-  options(iucn_redlist_key = iucn_redlist_key)
-}
-
-# Helper function from 0_SpList.R -----------------------------------------
-collapse_vals <- function(x, sep = "; ") {
-  x <- unique(x[!is.na(x)])
-  paste(x, collapse = sep)
-}
-retrieve_syns_new(sp,  
-                  n_times=10,
-                  Gbif=TRUE)

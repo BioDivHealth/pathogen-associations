@@ -22,17 +22,6 @@ p_load(dplyr, here, readr, stringr)
 source(here("scripts", "associations", "working_inputs.R"))
 source(here("scripts", "associations", "association_text_helpers.R"))
 
-normalize_vector_key <- function(x) {
-  x <- clean_text(x)
-  x <- stringr::str_to_lower(x)
-  x <- stringr::str_replace_all(x, "[/]", " ")
-  x <- stringr::str_replace_all(x, "[-–—]", " ")
-  x <- stringr::str_replace_all(x, "[()\\[\\],.;:*'`\"]", " ")
-  x <- stringr::str_squish(x)
-  x[x == ""] <- NA_character_
-  x
-}
-
 collapse_flag_values <- function(x) {
   x <- clean_text(x)
   x <- unlist(stringr::str_split(stats::na.omit(x), "\\|"), use.names = FALSE)
@@ -81,94 +70,6 @@ summarise_yes_no_mixed <- function(x) {
     has_yes ~ "yes",
     has_no ~ "no",
     TRUE ~ NA_character_
-  )
-}
-
-apply_vector_name_cleanup <- function(x, manual_map) {
-  cleaned <- normalize_vector_key(x)
-  method <- rep("normalized_name", length(cleaned))
-
-  abbreviations <- c(
-    "ae\\." = "aedes",
-    "cx\\." = "culex",
-    "oc\\." = "ochlerotatus",
-    "an\\." = "anopheles"
-  )
-
-  for (pattern in names(abbreviations)) {
-    matched <- !is.na(cleaned) & stringr::str_detect(cleaned, paste0("^", pattern, "\\s+"))
-    cleaned[matched] <- stringr::str_replace(
-      cleaned[matched],
-      paste0("^", pattern),
-      abbreviations[[pattern]]
-    )
-    method[matched] <- "rule_expand_genus_abbreviation"
-  }
-
-  abbreviations_no_period <- c(
-    "ae" = "aedes",
-    "cx" = "culex",
-    "oc" = "ochlerotatus",
-    "an" = "anopheles"
-  )
-
-  for (token in names(abbreviations_no_period)) {
-    matched <- !is.na(cleaned) & stringr::str_detect(cleaned, paste0("^", token, "\\s+"))
-    cleaned[matched] <- stringr::str_replace(
-      cleaned[matched],
-      paste0("^", token, "\\b"),
-      abbreviations_no_period[[token]]
-    )
-    method[matched] <- "rule_expand_genus_abbreviation"
-  }
-
-  parenthetical_subgenus <- !is.na(cleaned) &
-    stringr::str_detect(cleaned, "^[a-z]+ \\([a-z]+\\)\\s+")
-  cleaned[parenthetical_subgenus] <- stringr::str_replace(
-    cleaned[parenthetical_subgenus],
-    "^([a-z]+) \\([a-z]+\\)\\s+",
-    "\\1 "
-  )
-  method[parenthetical_subgenus] <- "rule_drop_parenthetical_subgenus"
-
-  repeated_genus <- !is.na(cleaned) &
-    stringr::str_detect(cleaned, "^([a-z]+) \\1\\b")
-  cleaned[repeated_genus] <- stringr::str_replace(
-    cleaned[repeated_genus],
-    "^([a-z]+) \\1\\s+",
-    "\\1 "
-  )
-  method[repeated_genus] <- "rule_repeated_genus"
-
-  aedes_subgenus <- !is.na(cleaned) &
-    stringr::str_detect(cleaned, "^aedes (ochlerotatus|neomelaniconion)\\b")
-  cleaned[aedes_subgenus] <- stringr::str_replace(
-    cleaned[aedes_subgenus],
-    "^aedes (ochlerotatus|neomelaniconion)\\s+",
-    "aedes "
-  )
-  method[aedes_subgenus] <- "rule_drop_subgenus_token"
-
-  culex_subgenus <- !is.na(cleaned) &
-    stringr::str_detect(cleaned, "^culex (melanoconion|culex)\\b")
-  cleaned[culex_subgenus] <- stringr::str_replace(
-    cleaned[culex_subgenus],
-    "^culex (melanoconion|culex)\\s+",
-    "culex "
-  )
-  method[culex_subgenus] <- "rule_drop_subgenus_token"
-
-  map_key <- normalize_vector_key(cleaned)
-  manual_source <- normalize_vector_key(manual_map$source_name)
-  mapped <- manual_map$canonical_name[match(map_key, manual_source)]
-  has_manual_map <- !is.na(mapped)
-
-  cleaned[has_manual_map] <- mapped[has_manual_map]
-  method[has_manual_map] <- "manual_map"
-
-  tibble::tibble(
-    vector_join_key = normalize_vector_key(cleaned),
-    vector_competence_name_cleanup_method = method
   )
 }
 
@@ -266,7 +167,7 @@ manual_map <- read_csv(
   na = c("", "NA")
 ) %>%
   mutate(across(where(is.character), clean_text)) %>%
-  mutate(source_name = stringr::str_to_lower(source_name)) %>%
+  mutate(source_name = normalize_vector_key(source_name)) %>%
   distinct(source_name, .keep_all = TRUE)
 
 competence <- read_csv(
@@ -299,7 +200,11 @@ if (length(missing_cols) > 0) {
   )
 }
 
-vector_cleanup <- apply_vector_name_cleanup(competence$v_species, manual_map)
+vector_cleanup <- apply_vector_name_cleanup(competence$v_species, manual_map) %>%
+  transmute(
+    vector_join_key,
+    vector_competence_name_cleanup_method = vector_name_cleanup_method
+  )
 
 competence_joinable <- competence %>%
   bind_cols(vector_cleanup) %>%
