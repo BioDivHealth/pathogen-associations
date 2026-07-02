@@ -24,42 +24,11 @@ suppressPackageStartupMessages({
 pacman::p_load(dplyr, purrr, readr, stringr, tibble, tidyr)
 
 source(here::here("scripts", "associations", "working_inputs.R"))
+source(here::here("scripts", "associations", "association_data_helpers.R"))
 
 # ------------------------------------------------------------------------------|
 #      Helpers -----------------------------------------------------------------|
 # ------------------------------------------------------------------------------|
-clean_text <- function(x) {
-  x <- as.character(x)
-  x[x %in% c("", "NA", "NaN", "No data", "null", "Null")] <- NA_character_
-  x <- stringr::str_replace_all(x, "\u00A0", " ")
-  x <- stringr::str_replace_all(x, "[\r\n\t]+", " ")
-  x <- stringr::str_squish(x)
-  x[x == ""] <- NA_character_
-  x
-}
-
-clean_key <- function(x) {
-  x %>%
-    clean_text() %>%
-    stringr::str_to_lower() %>%
-    stringr::str_replace_all("&", " and ") %>%
-    stringr::str_replace_all("[^a-z0-9]+", " ") %>%
-    stringr::str_squish()
-}
-
-is_true <- function(x) {
-  x %in% c(TRUE, "TRUE", "true", "True", 1, "1", "yes", "Yes", "YES")
-}
-
-read_csv_layer <- function(path) {
-  if (!file.exists(path)) {
-    stop("Missing required source-hint audit input: ", path, call. = FALSE)
-  }
-
-  readr::read_csv(path, show_col_types = FALSE, na = c("", "NA")) %>%
-    mutate(across(where(is.character), clean_text))
-}
-
 entity_key <- function(disease_name, vector_join_key, species_name) {
   paste(clean_key(disease_name), clean_key(vector_join_key), clean_key(species_name), sep = "|")
 }
@@ -99,12 +68,12 @@ paths <- list(
   readiness_full = file.path(readiness_dir, "disease_modelling_readiness_full.csv")
 )
 
-tracker <- read_csv_layer(paths$tracker)
-roster <- read_csv_layer(paths$roster)
-vector_features <- read_csv_layer(paths$vector_features)
-vector_evidence <- read_csv_layer(paths$vector_evidence)
-vector_assignments <- read_csv_layer(paths$vector_assignments)
-readiness_full <- read_csv_layer(paths$readiness_full)
+tracker <- read_csv_layer(paths$tracker, required = TRUE)
+roster <- read_csv_layer(paths$roster, required = TRUE)
+vector_features <- read_csv_layer(paths$vector_features, required = TRUE)
+vector_evidence <- read_csv_layer(paths$vector_evidence, required = TRUE)
+vector_assignments <- read_csv_layer(paths$vector_assignments, required = TRUE)
+readiness_full <- read_csv_layer(paths$readiness_full, required = TRUE)
 
 include_tracker <- tracker %>%
   filter(scope == "include") %>%

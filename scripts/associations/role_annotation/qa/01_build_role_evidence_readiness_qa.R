@@ -33,33 +33,11 @@ suppressPackageStartupMessages({
 pacman::p_load(dplyr, purrr, readr, stringr, tibble, tidyr)
 
 source(here::here("scripts", "associations", "working_inputs.R"))
+source(here::here("scripts", "associations", "association_data_helpers.R"))
 
 # ------------------------------------------------------------------------------|
 #      Helpers -----------------------------------------------------------------|
 # ------------------------------------------------------------------------------|
-clean_text <- function(x) {
-  x <- as.character(x)
-  x[x %in% c("", "NA", "NaN", "No data", "null", "Null")] <- NA_character_
-  x <- stringr::str_replace_all(x, "\u00A0", " ")
-  x <- stringr::str_replace_all(x, "[\r\n\t]+", " ")
-  x <- stringr::str_squish(x)
-  x[x == ""] <- NA_character_
-  x
-}
-
-is_true <- function(x) {
-  x %in% c(TRUE, "TRUE", "true", "True", 1, "1")
-}
-
-read_csv_layer <- function(path) {
-  if (!file.exists(path)) {
-    return(NULL)
-  }
-
-  readr::read_csv(path, show_col_types = FALSE, na = c("", "NA")) %>%
-    mutate(across(where(is.character), clean_text))
-}
-
 prefer_existing_path <- function(primary, fallback) {
   if (file.exists(primary) || !file.exists(fallback)) {
     return(primary)

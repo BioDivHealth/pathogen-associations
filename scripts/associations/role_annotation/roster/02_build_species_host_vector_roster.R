@@ -41,6 +41,7 @@ suppressPackageStartupMessages({
 pacman::p_load(dplyr, readr, stringr, tidyr, writexl)
 
 source(here::here("scripts", "associations", "working_inputs.R"))
+source(here::here("scripts", "associations", "association_data_helpers.R"))
 source(here::here(
   "scripts",
   "associations",
@@ -52,27 +53,6 @@ source(here::here(
 # ------------------------------------------------------------------------------|
 #      Helpers -----------------------------------------------------------------|
 # ------------------------------------------------------------------------------|
-clean_text <- function(x) {
-  x <- as.character(x)
-  x[x %in% c("", "NA", "NaN", "No data", "null", "Null")] <- NA_character_
-  x <- stringr::str_replace_all(x, "\u00A0", " ")
-  x <- stringr::str_replace_all(x, "[\r\n\t]+", " ")
-  x <- stringr::str_squish(x)
-  x[x == ""] <- NA_character_
-  x
-}
-
-collapse_unique <- function(x) {
-  x <- clean_text(x)
-  x <- sort(unique(stats::na.omit(x)))
-
-  if (length(x) == 0) {
-    return(NA_character_)
-  }
-
-  paste(x, collapse = "; ")
-}
-
 collapse_semicolon_values <- function(x) {
   x <- clean_text(x)
   x <- unlist(stringr::str_split(stats::na.omit(x), ";"), use.names = FALSE)
@@ -83,10 +63,6 @@ collapse_semicolon_values <- function(x) {
   }
 
   paste(x, collapse = "; ")
-}
-
-is_true <- function(x) {
-  x %in% c(TRUE, "TRUE", "true", "True", 1, "1")
 }
 
 first_non_missing <- function(x) {
