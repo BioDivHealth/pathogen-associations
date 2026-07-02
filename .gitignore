@@ -170,3 +170,5 @@ scripts/dev/export_codex_chats.py
 # Python bytecode
 __pycache__/
 *.py[cod]
+
+docs/codex_chats/

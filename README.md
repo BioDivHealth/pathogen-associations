@@ -24,23 +24,17 @@ The main output contract is a modelling-readiness handoff under
 modelling packages, evidence tiers, role assignments, country evidence, and
 species lists for SDM planning.
 
-## Future SDM Repository Boundary
+## SDM Repository Boundary
 
-SDM execution should live in a separate repository, likely named
-`pathogen-sdms` or `disease-sdms`. That future repository should own occurrence
-downloads, SDM fitting, AutoMaxent/model execution, prediction outputs, delivery
-bundles, model catalogues, and SDM interface tooling.
-
-For now, `scripts/sdms/` and `sdms/` remain in this repository as temporary
-migration material. They preserve the current handoff and catalogue workflow
-while the split is stabilized. Treat them as extraction candidates for the
-future SDM-focused repository, not as the long-term ownership boundary of this
-repository.
+SDM execution now lives in the separate `pathogen-sdms` repository. That repo
+owns occurrence downloads, SDM fitting, AutoMaxent/model execution, prediction
+outputs, ready-SDM bundle construction, model catalogues, and SDM interface
+tooling.
 
 The intended contract is:
 
 1. `pathogen-associations` produces readiness targets and evidence tiers.
-2. The SDM repository consumes those targets and produces model outputs and
+2. `pathogen-sdms` consumes those targets and produces model outputs and
    availability catalogues.
 3. `pathogen-associations` may optionally import SDM availability catalogues
    back into readiness summaries, but it should not own SDM execution.
@@ -55,6 +49,7 @@ Start with these files:
 
 - `DATA_DECISIONS.md`: evidence-interpretation boundaries for host, vector,
   competence, country, role, and readiness layers.
+- `methods/README.md`: concise manuscript-facing draft of the core methods.
 - `pathogen_association_data/README.md`: current data lifecycle layout.
 - `scripts/associations/README.md`: association workflow overview.
 - `scripts/associations/working_inputs.R`: shared path helpers for active

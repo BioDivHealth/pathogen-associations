@@ -73,9 +73,6 @@ Rscript scripts/associations/readiness/02_build_modelling_evidence_tiers_handoff
 - `disease_modelling_readiness_full.csv` is the wider audit companion with join
   diagnostics, upstream source fields, and provenance columns retained for
   debugging the lean planning table.
-- `disease_modelling_readiness_v1.csv` is a frozen snapshot of the earlier
-  wider 53-column planning table, kept so the refined table can be compared
-  against the previous layout.
 
 These files are workflow control surfaces, not final biological evidence
 sources. Direct vector evidence remains limited to curated vector rows, SDM
