@@ -176,6 +176,8 @@ all_candidates <- imap_dfr(
   )
 ) %>%
   mutate(
+    # Fuzzy matches are candidates only; the tighter 0.03 band marks easier
+    # manual review cases but does not auto-accept taxonomy matches.
     match_status = case_when(
       match_type %in% c("exact", "manual_alias") ~ "accepted_candidate",
       match_type == "fuzzy_candidate" & match_distance <= 0.03 ~ "strong_review_candidate",

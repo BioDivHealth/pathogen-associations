@@ -124,6 +124,8 @@ prepare_host_features <- function(hosts, proxy_rules) {
     ) %>%
     add_host_modelling_proxy(proxy_rules = proxy_rules) %>%
     mutate(
+      # Host tiers are modelling-readiness filters, not role claims: strict
+      # requires source-backed, medium/high confidence evidence with no review flag.
       profile_broad = taxonomy_ok,
       profile_supported = taxonomy_ok & (
         host_direct_detection_supported |
@@ -175,6 +177,8 @@ prepare_vector_features <- function(vectors) {
         vector_competence_status %in% c("competent", "mixed") |
           transmission_demonstrated %in% c("yes", "mixed"),
       vector_assignment_bucket = classify_vector_role_text(vector_role_assignment),
+      # Reviewed assignments outrank competence/direct-evidence fallbacks; rows
+      # with taxonomy cautions or no direct vector evidence stay review-first.
       vector_role_bucket = case_when(
         !taxonomy_ok ~ "unknown_or_unreviewed_vector",
         !has_disease_vector_evidence ~ "unknown_or_unreviewed_vector",
@@ -201,6 +205,8 @@ prepare_vector_features <- function(vectors) {
         ) ~ TRUE,
         TRUE ~ FALSE
       ),
+      # Strict vector readiness requires human-biting evidence so competence-only
+      # vectors do not become top-tier modelling targets without exposure support.
       profile_broad = taxonomy_ok & has_disease_vector_evidence,
       profile_supported = taxonomy_ok & (
         evidence_level_supported |

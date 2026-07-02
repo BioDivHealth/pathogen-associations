@@ -94,6 +94,8 @@ manual_mappings <- tribble(
 manual_matches <- who_long %>%
   inner_join(manual_mappings, by = c("bacteria_key" = "who_name_lower")) %>%
   inner_join(clover_bacteria_proc, by = c("clover_name_lower" = "bacteria_key")) %>%
+  # Manual rows use a sentinel distance so exact matches still sort first while
+  # curated corrections remain distinguishable from fuzzy string matches.
   mutate(dist = 0.5, match_source = "manual") %>%
   dplyr::select(ID, name_type, bacteria_name, Disease_name, all_of(names(clover_bacteria_proc)), dist, match_source)
 

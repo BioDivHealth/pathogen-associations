@@ -92,7 +92,9 @@ manual_mappings <- tribble(
 manual_matches <- who_long %>%
   inner_join(manual_mappings, by = c("virus_key" = "who_name_lower")) %>%
   inner_join(taxonomy_virus_proc, by = c("virion_name_lower" = "virus_key")) %>%
-  mutate(dist = 0.5, match_source = "manual") %>%  # Flag as manual matches with intermediate distance
+  # Manual rows use a sentinel distance so exact matches still sort first while
+  # curated corrections remain distinguishable from fuzzy string matches.
+  mutate(dist = 0.5, match_source = "manual") %>%
   select(ID, name_type, virus_name,Disease_name, VirusTaxID, Virus, VirusFamily, Database, dist, match_source)
 
 # ------------------------------| Exact matches |------------------------------

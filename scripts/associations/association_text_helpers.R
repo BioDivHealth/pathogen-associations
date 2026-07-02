@@ -43,6 +43,8 @@ ascii_transliterate_text <- function(x) {
 }
 
 normalize_vector_key <- function(x) {
+  # Join keys are deliberately punctuation-insensitive ASCII strings so vector
+  # evidence, competence, and host-vector sources share one equality contract.
   x <- ascii_transliterate_text(x)
   x <- stringr::str_to_lower(x)
   x <- stringr::str_replace_all(x, "[/|_\\\\]+", " ")
@@ -80,6 +82,8 @@ apply_vector_name_cleanup <- function(
   unchanged_method = "normalized_name",
   name_case = c("lower", "sentence")
 ) {
+  # Biological cleanup runs before display casing; manual maps run last so
+  # curated taxonomy fixes override general subgenus/authorship rules.
   name_case <- match.arg(name_case)
   cleaned <- ascii_transliterate_text(x)
   cleaned <- stringr::str_replace_all(cleaned, "[/|_\\\\]+", " ")
