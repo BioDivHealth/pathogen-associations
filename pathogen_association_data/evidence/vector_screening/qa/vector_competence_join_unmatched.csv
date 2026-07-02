@@ -16,6 +16,7 @@ Plague,paradoxopsyllus integer,Paradoxopsyllus integer,unclear,narrative_review,
 Plague,paradoxopsyllus scalonae,Paradoxopsyllus scalonae,unclear,narrative_review,,yes,Medvedev et al. 2022,plague microbe isolated from the species but no transmission result given
 Plague,thrassis gladiolus,Thrassis gladiolus,not_competent,narrative_review,no,,Eisen et al. 2009,older study failed to transmit and the authors said the sample size was too small for a final verdict
 Plague,thrassis petiolatus,Thrassis petiolatus,not_competent,narrative_review,no,,Eisen et al. 2009,older study failed to transmit and the authors said the sample size was too small for a final verdict
+Rift Valley fever,aedes dentatus,Aedes (Aedimorphus) dentatus,competent,narrative_review,yes,yes,Pepin et al. 2010,epidemiological importance
 Rift Valley fever,aedes dorsalis,Aedes dorsalis,unclear,dataset,,,Golnar et al. 2014 Table 1,near-zero measured vector competence
 Rift Valley fever,aedes infirmatus,Aedes infirmatus,not_competent,dataset,no,,Golnar et al. 2014 Table 1,explicit incompetent example in text
 Rift Valley fever,anopheles crucians,Anopheles crucians,not_competent,dataset,no,,Golnar et al. 2014 Table 1,explicit incompetent example in text

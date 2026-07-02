@@ -1769,7 +1769,6 @@ Homo sapiens,Wyeomyia forcipenis,FALSE,9606,Mammalia,Primates,Hominidae,Wyeomyia
 Homo sapiens,Wyeomyia theobaldi,FALSE,9606,Mammalia,Primates,Hominidae,Wyeomyia theobaldi,VectorMap,BloodMealMap,blood_meal,Brazil,,1
 Homo sapiens,funestus group,TRUE,9606,Mammalia,Primates,Hominidae,funestus group,MapVEu,MapVEu,blood_meal,Burkina Faso,vector_group,2
 Homo sapiens,gambiae species complex,TRUE,9606,Mammalia,Primates,Hominidae,gambiae species complex,MapVEu,MapVEu,blood_meal,Burkina Faso; Central African Republic; Tanzania,vector_complex,18
-Homo sapiens,no data,FALSE,9606,Mammalia,Primates,Hominidae,no data,VectorMap,TickMap,on_host_occurrence,United States,,1
 Hydrochoerus hydrochaeris,Aedes scapularis,FALSE,10149,mammalia,rodentia,caviidae,Aedes scapularis,VectorMap,BloodMealMap,blood_meal,Brazil,,1
 Hydrochoerus hydrochaeris,Anopheles albitarsis,FALSE,10149,mammalia,rodentia,caviidae,Anopheles albitarsis,VectorMap,BloodMealMap,blood_meal,Brazil,,1
 Hydrochoerus hydrochaeris,Anopheles cruzii,FALSE,10149,mammalia,rodentia,caviidae,Anopheles cruzii,VectorMap,BloodMealMap,blood_meal,Brazil,,1
@@ -2018,7 +2017,7 @@ Neogale vison,Dermacentor albipictus,FALSE,452646,mammalia,carnivora,mustelidae,
 Neogale vison,Dermacentor variabilis,FALSE,452646,mammalia,carnivora,mustelidae,Dermacentor variabilis,VectorMap,TickMap,on_host_occurrence,United States of America,,4
 Neogale vison,Ixodes cookei,FALSE,452646,mammalia,carnivora,mustelidae,Ixodes cookei,VectorMap,TickMap,on_host_occurrence,United States of America,,44
 Neogale vison,Ixodes gregsoni,FALSE,452646,mammalia,carnivora,mustelidae,Ixodes gregsoni,VectorMap,TickMap,on_host_occurrence,United States of America,,5
-Neogale vison,ixodes texanus,FALSE,452646,mammalia,carnivora,mustelidae,ixodes texanus,VectorMap,TickMap,on_host_occurrence,United States of America,,4
+Neogale vison,Ixodes texanus,FALSE,452646,mammalia,carnivora,mustelidae,Ixodes texanus,VectorMap,TickMap,on_host_occurrence,United States of America,,4
 Neotoma lepida,Anomiopsyllus nudatus,FALSE,56216,mammalia,rodentia,cricetidae,Anomiopsyllus nudatus,VectorMap,FleaMap,on_host_occurrence,United States,,5
 Neotoma lepida,Dermacentor hunteri,FALSE,56216,mammalia,rodentia,cricetidae,Dermacentor hunteri,VectorMap,TickMap,on_host_occurrence,United States of America,,13
 Neotoma lepida,Echidnophaga gallinacea,FALSE,56216,mammalia,rodentia,cricetidae,Echidnophaga gallinacea,VectorMap,FleaMap,on_host_occurrence,United States,,14
@@ -2720,11 +2719,10 @@ Sus scrofa,Culiseta inornata,FALSE,9823,mammalia,artiodactyla,suidae,Culiseta in
 Sus scrofa,Culiseta melanura,FALSE,9823,mammalia,artiodactyla,suidae,Culiseta melanura,VectorMap,BloodMealMap,blood_meal,Unites States,,1
 Sus scrofa,Deinocerites cancer,FALSE,9823,mammalia,artiodactyla,suidae,Deinocerites cancer,VectorMap,BloodMealMap,blood_meal,Panama,,1
 Sus scrofa,Deinocerites epitedeus,FALSE,9823,mammalia,artiodactyla,suidae,Deinocerites epitedeus,VectorMap,BloodMealMap,blood_meal,Panama,,1
-Sus scrofa,Dermacentor Variabilis,FALSE,9823,mammalia,artiodactyla,suidae,Dermacentor Variabilis,VectorMap,TickMap,on_host_occurrence,United States of America,,16
 Sus scrofa,Dermacentor halli,FALSE,9823,mammalia,artiodactyla,suidae,Dermacentor halli,VectorMap,TickMap,on_host_occurrence,United States of America,,5
 Sus scrofa,Dermacentor marginatus,FALSE,9823,mammalia,artiodactyla,suidae,Dermacentor marginatus,VectorMap,TickMap,on_host_occurrence,Morocco,,3
 Sus scrofa,Dermacentor nitens,FALSE,9823,mammalia,artiodactyla,suidae,Dermacentor nitens,VectorMap,TickMap,on_host_occurrence,Peru,,1
-Sus scrofa,Dermacentor variabilis,FALSE,9823,mammalia,artiodactyla,suidae,Dermacentor variabilis,VectorMap,TickMap,on_host_occurrence,United States of America,,212
+Sus scrofa,Dermacentor variabilis,FALSE,9823,mammalia,artiodactyla,suidae,Dermacentor variabilis,VectorMap,TickMap,on_host_occurrence,United States of America,,228
 Sus scrofa,Ficalbia ichiromiyagii,FALSE,9823,mammalia,artiodactyla,suidae,Ficalbia ichiromiyagii,VectorMap,BloodMealMap,blood_meal,Japan,,1
 Sus scrofa,Hyalomma aegyptium,FALSE,9823,mammalia,artiodactyla,suidae,Hyalomma aegyptium,VectorMap,TickMap,on_host_occurrence,"Congo, The Democratic Republic of The",,1
 Sus scrofa,Hyalomma excavatum,FALSE,9823,mammalia,artiodactyla,suidae,Hyalomma excavatum,VectorMap,TickMap,on_host_occurrence,Morocco,,1

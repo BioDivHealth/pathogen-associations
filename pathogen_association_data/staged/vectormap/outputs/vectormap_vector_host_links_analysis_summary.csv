@@ -1692,7 +1692,6 @@ Homo sapiens,9606,,,,Wyeomyia davisi,FALSE,Wyeomyia davisi,blood_meal,BloodMealM
 Homo sapiens,9606,,,,Wyeomyia deanei,FALSE,Wyeomyia deanei,blood_meal,BloodMealMap,Brazil,,,1
 Homo sapiens,9606,,,,Wyeomyia forcipenis,FALSE,Wyeomyia forcipenis,blood_meal,BloodMealMap,Brazil,,,1
 Homo sapiens,9606,,,,Wyeomyia theobaldi,FALSE,Wyeomyia theobaldi,blood_meal,BloodMealMap,Brazil,,,1
-Homo sapiens,9606,,,,no data,FALSE,no data,on_host_occurrence,TickMap,United States,,,1
 Hydrochoerus hydrochaeris,10149,mammalia,rodentia,caviidae,Aedes scapularis,FALSE,Aedes scapularis,blood_meal,BloodMealMap,Brazil,,,1
 Hydrochoerus hydrochaeris,10149,mammalia,rodentia,caviidae,Anopheles albitarsis,FALSE,Anopheles albitarsis,blood_meal,BloodMealMap,Brazil,,,1
 Hydrochoerus hydrochaeris,10149,mammalia,rodentia,caviidae,Anopheles cruzii,FALSE,Anopheles cruzii,blood_meal,BloodMealMap,Brazil,,,1
@@ -1938,7 +1937,7 @@ Neogale vison,452646,mammalia,carnivora,mustelidae,Dermacentor albipictus,FALSE,
 Neogale vison,452646,mammalia,carnivora,mustelidae,Dermacentor variabilis,FALSE,Dermacentor variabilis,on_host_occurrence,TickMap,United States of America,,,4
 Neogale vison,452646,mammalia,carnivora,mustelidae,Ixodes cookei,FALSE,Ixodes cookei,on_host_occurrence,TickMap,United States of America,,,44
 Neogale vison,452646,mammalia,carnivora,mustelidae,Ixodes gregsoni,FALSE,Ixodes gregsoni,on_host_occurrence,TickMap,United States of America,,,5
-Neogale vison,452646,mammalia,carnivora,mustelidae,ixodes texanus,FALSE,ixodes texanus,on_host_occurrence,TickMap,United States of America,,,4
+Neogale vison,452646,mammalia,carnivora,mustelidae,Ixodes texanus,FALSE,Ixodes texanus,on_host_occurrence,TickMap,United States of America,,,4
 Neotoma lepida,56216,mammalia,rodentia,cricetidae,Anomiopsyllus nudatus,FALSE,Anomiopsyllus nudatus,on_host_occurrence,FleaMap,United States,,,5
 Neotoma lepida,56216,mammalia,rodentia,cricetidae,Dermacentor hunteri,FALSE,Dermacentor hunteri,on_host_occurrence,TickMap,United States of America,,,13
 Neotoma lepida,56216,mammalia,rodentia,cricetidae,Echidnophaga gallinacea,FALSE,Echidnophaga gallinacea,on_host_occurrence,FleaMap,United States,,,14
@@ -2625,11 +2624,10 @@ Sus scrofa,9823,mammalia,artiodactyla,suidae,Culiseta inornata,FALSE,Culiseta in
 Sus scrofa,9823,mammalia,artiodactyla,suidae,Culiseta melanura,FALSE,Culiseta melanura,blood_meal,BloodMealMap,Unites States,,,1
 Sus scrofa,9823,mammalia,artiodactyla,suidae,Deinocerites cancer,FALSE,Deinocerites cancer,blood_meal,BloodMealMap,Panama,,,1
 Sus scrofa,9823,mammalia,artiodactyla,suidae,Deinocerites epitedeus,FALSE,Deinocerites epitedeus,blood_meal,BloodMealMap,Panama,,,1
-Sus scrofa,9823,mammalia,artiodactyla,suidae,Dermacentor Variabilis,FALSE,Dermacentor Variabilis,on_host_occurrence,TickMap,United States of America,,,16
 Sus scrofa,9823,mammalia,artiodactyla,suidae,Dermacentor halli,FALSE,Dermacentor halli,on_host_occurrence,TickMap,United States of America,,,5
 Sus scrofa,9823,mammalia,artiodactyla,suidae,Dermacentor marginatus,FALSE,Dermacentor marginatus,on_host_occurrence,TickMap,Morocco,,,3
 Sus scrofa,9823,mammalia,artiodactyla,suidae,Dermacentor nitens,FALSE,Dermacentor nitens,on_host_occurrence,TickMap,Peru,,,1
-Sus scrofa,9823,mammalia,artiodactyla,suidae,Dermacentor variabilis,FALSE,Dermacentor variabilis,on_host_occurrence,TickMap,United States of America,,,212
+Sus scrofa,9823,mammalia,artiodactyla,suidae,Dermacentor variabilis,FALSE,Dermacentor variabilis,on_host_occurrence,TickMap,United States of America,,,228
 Sus scrofa,9823,mammalia,artiodactyla,suidae,Ficalbia ichiromiyagii,FALSE,Ficalbia ichiromiyagii,blood_meal,BloodMealMap,Japan,,,1
 Sus scrofa,9823,mammalia,artiodactyla,suidae,Hyalomma aegyptium,FALSE,Hyalomma aegyptium,on_host_occurrence,TickMap,"Congo, The Democratic Republic of The",,,1
 Sus scrofa,9823,mammalia,artiodactyla,suidae,Hyalomma excavatum,FALSE,Hyalomma excavatum,on_host_occurrence,TickMap,Morocco,,,1
