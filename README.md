@@ -44,11 +44,12 @@ The intended contract is:
 The active pathogen association pipeline builds WHO-linked disease/pathogen
 analysis units, attaches host, vector, competence, country, role-review, and
 SDM-availability evidence layers, and writes modelling-readiness handoff files.
+These layers remain distinct unless a documented workflow step explicitly
+combines them; candidate evidence should not be treated as a final biological
+role or geographic occurrence claim.
 
 Start with these files:
 
-- `DATA_DECISIONS.md`: evidence-interpretation boundaries for host, vector,
-  competence, country, role, and readiness layers.
 - `methods/README.md`: concise manuscript-facing draft of the core methods.
 - `pathogen_association_data/README.md`: current data lifecycle layout.
 - `scripts/associations/README.md`: association workflow overview.

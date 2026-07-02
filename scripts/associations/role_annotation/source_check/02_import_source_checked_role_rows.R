@@ -178,8 +178,8 @@ source_check_dir <- role_source_check_dir
 import_dir <- role_source_check_import_dir
 
 paths <- list(
-  data_decisions = file.path(repo_root, "docs", "DATA_DECISIONS.md"),
   role_readme = file.path(role_dir, "README.md"),
+  source_check_readme = file.path(source_check_dir, "README.md"),
   decisions = file.path(source_check_dir, "candidate_source_check_decisions.csv"),
   source_request = file.path(source_check_dir, "candidate_source_request_list_with_files.csv"),
   host_evidence = file.path(role_evidence_dir, "host_role_evidence.csv"),
@@ -192,7 +192,7 @@ paths <- list(
 )
 
 required_paths <- unlist(paths[c(
-  "data_decisions", "role_readme", "decisions", "source_request",
+  "role_readme", "source_check_readme", "decisions", "source_request",
   "host_evidence", "vector_evidence", "host_assignments", "vector_assignments"
 )]);
 missing_paths <- required_paths[!file.exists(required_paths)]
@@ -652,7 +652,7 @@ summary_lines <- c(
   "",
   "## Guardrails",
   "",
-  "- `docs/DATA_DECISIONS.md` and the role-annotation README were required preflight inputs.",
+  "- The role-annotation README and source-check README were required preflight inputs.",
   "- Only `decision == \"accept\"` and `import_ready == TRUE` rows were considered for import.",
   "- Evidence-only and deferred rows were excluded.",
   "- Official role CSV schemas were preserved.",
