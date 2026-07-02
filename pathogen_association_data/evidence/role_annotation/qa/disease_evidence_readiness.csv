@@ -3,14 +3,14 @@ Chikungunya fever,30,1,0,1,4,11,51,30,21,12,15,12,0,21,2,7,10,15,14,0,115,115,10
 Crimean-Congo hemorrhagic fever,58,1,7,2,13,2,107,58,49,35,30,27,2,49,16,4,29,30,2,1,53,53,5335,1,4,4,4,3,0,4,4,4,6,6,4,4,6,6,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,reviewed_assignment_present
 Dengue,53,1,0,0,6,29,69,53,16,6,15,6,0,16,8,2,4,15,2,3,143,143,53740,7,1254,47,38,28,1,47,1,1,7,7,1,1,7,7,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,reviewed_assignment_present
 Oropouche fever,8,1,1,0,0,1,23,8,15,10,15,10,0,16,1,4,7,16,2,9,15,15,3156,1,3,5,1,5,0,5,2,2,3,3,2,2,3,3,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,reviewed_assignment_present
-Plague,52,1,1,0,26,0,99,52,47,11,47,2,3,47,38,5,3,47,37,14,36,36,152996,1,1101,21,19,10,1,21,3,3,4,4,3,3,4,4,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,reviewed_assignment_present
-Rift Valley fever,41,1,6,0,8,6,119,41,78,45,72,43,1,88,6,33,36,82,30,53,33,33,1793,1,6,18,13,10,1,18,7,7,6,6,7,7,6,6,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,reviewed_assignment_present
+Plague,52,1,1,0,26,0,99,52,47,12,47,2,3,47,38,5,3,47,37,14,36,36,152996,1,1101,21,19,10,1,21,3,3,4,4,3,3,4,4,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,reviewed_assignment_present
+Rift Valley fever,41,1,6,0,8,6,119,41,78,45,69,43,1,88,6,33,36,79,26,52,33,33,1793,1,6,18,13,10,1,18,7,7,6,6,7,7,6,6,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,reviewed_assignment_present
 Severe fever with thrombocytopenia syndrome (SFTS),36,1,6,1,7,4,51,36,15,7,15,3,0,15,5,1,2,15,5,15,6,6,9975,0,0,0,0,0,0,0,3,3,4,4,2,2,3,3,TRUE,TRUE,TRUE,TRUE,FALSE,TRUE,TRUE,TRUE,reviewed_assignment_present
 Tick-borne encephalitis,92,1,5,43,25,1,103,92,11,6,11,6,0,11,8,1,0,11,10,8,37,37,3428,1,1,0,0,0,0,0,7,7,5,5,7,7,5,5,TRUE,TRUE,TRUE,TRUE,FALSE,TRUE,TRUE,TRUE,reviewed_assignment_present
-Venezuelan equine encephalitis,87,1,6,19,26,14,122,87,35,19,32,19,0,43,9,12,22,40,19,17,19,19,368,1,1,0,0,0,0,0,3,3,3,3,2,2,3,3,TRUE,TRUE,TRUE,TRUE,FALSE,TRUE,TRUE,TRUE,reviewed_assignment_present
+Venezuelan equine encephalitis,87,1,6,19,26,14,122,87,35,20,32,19,0,43,9,12,22,40,19,17,19,19,368,1,1,0,0,0,0,0,3,3,3,3,2,2,3,3,TRUE,TRUE,TRUE,TRUE,FALSE,TRUE,TRUE,TRUE,reviewed_assignment_present
 West Nile fever,274,1,8,160,32,13,349,274,75,47,39,39,1,75,9,10,52,39,21,1,73,73,8316,0,0,14,11,4,0,14,4,4,6,6,3,3,5,5,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,reviewed_assignment_present
 Yellow fever,73,1,0,0,2,11,103,73,30,12,27,12,0,32,18,7,7,29,20,10,42,42,1995,1,1,109,71,34,7,104,2,2,6,6,2,2,6,6,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,reviewed_assignment_present
-Zika virus disease,21,1,0,0,2,9,77,21,56,29,27,29,2,57,7,7,27,27,7,11,78,78,2245,3,25,16,15,14,9,14,1,1,12,12,1,1,12,12,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,reviewed_assignment_present
+Zika virus disease,21,1,0,0,2,9,76,21,55,28,27,28,1,57,7,7,27,28,7,11,78,78,2245,3,25,16,15,14,9,14,1,1,12,12,1,1,12,12,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,reviewed_assignment_present
 African horse sickness,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,14,2747,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,TRUE,FALSE,FALSE,FALSE,FALSE,no_role_evidence_or_assignment
 Alkhurma,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,76,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,TRUE,FALSE,FALSE,FALSE,FALSE,no_role_evidence_or_assignment
 Andes,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,8,530,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,TRUE,FALSE,FALSE,FALSE,FALSE,no_role_evidence_or_assignment

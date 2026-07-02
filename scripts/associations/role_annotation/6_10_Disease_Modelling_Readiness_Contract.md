@@ -86,10 +86,10 @@ role-roster inputs, and the compact role-ready SDM companion table:
 | `disease_modelling_pilot.csv` | 31 | 34 |
 | `disease_modelling_pilot_package/manifest.csv` | 7 | 6 |
 | `disease_modelling_pilot_package/pilot_hosts.csv` | 2250 | 18 |
-| `disease_modelling_pilot_package/pilot_vectors.csv` | 448 | 26 |
+| `disease_modelling_pilot_package/pilot_vectors.csv` | 447 | 26 |
 | `disease_modelling_pilot_package/pilot_countries.csv` | 1188 | 16 |
-| `disease_modelling_pilot_package/pilot_sdm_species.csv` | 2698 | 17 |
-| `disease_modelling_pilot_package/pilot_sdm_species_role_ready.csv` | 2698 | 32 |
+| `disease_modelling_pilot_package/pilot_sdm_species.csv` | 2697 | 17 |
+| `disease_modelling_pilot_package/pilot_sdm_species_role_ready.csv` | 2697 | 32 |
 | `disease_modelling_pilot_package/pilot_evidence_summary.csv` | 31 | 73 |
 
 Host-role fields are part of the current baseline for `pilot_hosts.csv` and

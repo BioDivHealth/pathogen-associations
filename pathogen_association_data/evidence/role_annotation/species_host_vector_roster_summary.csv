@@ -118,8 +118,8 @@ Plague,species_role,vector,47
 Plague,species_role,host,52
 Plague,vector_role_assignment,primary_vector,2
 Plague,vector_role_assignment,candidate_vector,1
-Rift Valley fever,has_competence_evidence,TRUE,72
-Rift Valley fever,has_competence_evidence,FALSE,47
+Rift Valley fever,has_competence_evidence,TRUE,69
+Rift Valley fever,has_competence_evidence,FALSE,50
 Rift Valley fever,has_disease_vector_evidence,TRUE,78
 Rift Valley fever,has_disease_vector_evidence,FALSE,41
 Rift Valley fever,has_vector_role_assignment,TRUE,5
@@ -191,13 +191,13 @@ Yellow fever,species_role,host,73
 Yellow fever,vector_role_assignment,sylvatic_vector,3
 Yellow fever,vector_role_assignment,main_vector,1
 Zika virus disease,has_competence_evidence,TRUE,27
-Zika virus disease,has_competence_evidence,FALSE,50
-Zika virus disease,has_disease_vector_evidence,TRUE,56
+Zika virus disease,has_competence_evidence,FALSE,49
+Zika virus disease,has_disease_vector_evidence,TRUE,55
 Zika virus disease,has_disease_vector_evidence,FALSE,21
 Zika virus disease,has_vector_role_assignment,TRUE,12
-Zika virus disease,has_vector_role_assignment,FALSE,44
-Zika virus disease,roster_rows,,77
-Zika virus disease,species_role,vector,56
+Zika virus disease,has_vector_role_assignment,FALSE,43
+Zika virus disease,roster_rows,,76
+Zika virus disease,species_role,vector,55
 Zika virus disease,species_role,host,21
 Zika virus disease,vector_role_assignment,sylvatic_vector,2
 Zika virus disease,vector_role_assignment,sylvatic_candidate_vector,3

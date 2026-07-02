@@ -1090,7 +1090,6 @@ master_3,Zika virus disease,Zika virus disease,culex perfuscus,,vector,yes,,,,,,
 master_3,Zika virus disease,Zika virus disease,culex pipiens,,vector,yes,,,,,,,,,TRUE,Culex pipiens
 master_3,Zika virus disease,Zika virus disease,culex pipiens biotype molestus,,vector,yes,,,,,,,,,TRUE,Culex pipiens biotype molestus
 master_3,Zika virus disease,Zika virus disease,culex pipiens biotype pipiens,,vector,yes,,,,,,,,,TRUE,Culex pipiens biotype pipiens
-master_3,Zika virus disease,Zika virus disease,culex pipiens molestus,,vector,yes,,,,,,,,,TRUE,Culex pipiens molestus
 master_3,Zika virus disease,Zika virus disease,culex quinquefasciatus,,vector,yes,,,,,not_important_vector,medium,TRUE,draft_needs_review,TRUE,Culex quinquefasciatus
 master_3,Zika virus disease,Zika virus disease,culex rubinotus,,vector,yes,,,,,,,,,FALSE,
 master_3,Zika virus disease,Zika virus disease,culex tarsalis,,vector,yes,,,,,,,,,TRUE,Culex tarsalis

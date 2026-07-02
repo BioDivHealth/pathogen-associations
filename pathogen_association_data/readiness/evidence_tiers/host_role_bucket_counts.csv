@@ -1,7 +1,4 @@
 source_dataset,analysis_unit_id,readiness_disease_name,host_role_bucket,host_role_evidence_basis,modelling_role_proxy_confidence,modelling_role_proxy_needs_review,rows
-chikungunya_delivery,master_4,Chikungunya fever,host_presence_only,candidate_only,low,TRUE,27
-chikungunya_delivery,master_4,Chikungunya fever,reservoir_or_amplifying_host,exact_source_backed,medium,TRUE,2
-chikungunya_delivery,master_4,Chikungunya fever,reservoir_or_amplifying_host,exact_source_backed,high,FALSE,1
 repo_pilot,master_20,Argentine hemorrhagic fever,host_presence_only,candidate_only,low,TRUE,7
 repo_pilot,master_20,Argentine hemorrhagic fever,dead_end_or_incidental_host,exact_source_backed,high,FALSE,1
 repo_pilot,master_20,Argentine hemorrhagic fever,reservoir_or_amplifying_host,exact_reviewed_needs_review,low,TRUE,1
