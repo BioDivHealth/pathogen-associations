@@ -48,7 +48,7 @@ Bos taurus,9913,mammalia,artiodactyla,bovidae,Culex quinquefasciatus,FALSE,Culex
 Bos taurus,9913,mammalia,artiodactyla,bovidae,Ochlerotatus camptorhynchus,FALSE,Ochlerotatus camptorhynchus,MapVEu,Australia,,81
 Bos taurus,9913,mammalia,artiodactyla,bovidae,gambiae species complex,TRUE,gambiae species complex,MapVEu,Tanzania,vector_complex,2
 Bos taurus,9913,mammalia,artiodactyla,bovidae,nivipes species complex,TRUE,nivipes species complex,MapVEu,Cambodia,vector_complex,9
-Butorides virescens,110671,,,,Culex erraticus,FALSE,Culex erraticus,MapVEu,United States,,1
+Butorides virescens,110671,Aves,Pelecaniformes,Ardeidae,Culex erraticus,FALSE,Culex erraticus,MapVEu,United States,,1
 Canis lupus,9615,mammalia,carnivora,canidae,Aedes aegypti,FALSE,Aedes aegypti,MapVEu,Grenada,,32
 Canis lupus,9615,mammalia,carnivora,canidae,Anopheles annulipes,FALSE,Anopheles annulipes,MapVEu,Australia,,1
 Canis lupus,9615,mammalia,carnivora,canidae,Anopheles arabiensis,FALSE,Anopheles arabiensis,MapVEu,Ethiopia; Ghana; Kenya; Madagascar,,18
@@ -105,54 +105,54 @@ Gallus gallus,9031,aves,galliformes,phasianidae,Culex quinquefasciatus,FALSE,Cul
 Gallus gallus,9031,aves,galliformes,phasianidae,gambiae species complex,TRUE,gambiae species complex,MapVEu,Tanzania,vector_complex,2
 Hirundo rustica,43150,aves,passeriformes,hirundinidae,Culex modestus,FALSE,Culex modestus,MapVEu,United Kingdom,,3
 Hirundo rustica,43150,aves,passeriformes,hirundinidae,Culex pipiens,FALSE,Culex pipiens,MapVEu,United Kingdom,,9
-Homo sapiens,9606,,,,Aedes aegypti,FALSE,Aedes aegypti,MapVEu,Grenada,,32
-Homo sapiens,9606,,,,Aedes notoscriptus,FALSE,Aedes notoscriptus,MapVEu,Australia,,1
-Homo sapiens,9606,,,,Anopheles <genus>,FALSE,Anopheles <genus>,MapVEu,Botswana,,7
-Homo sapiens,9606,,,,Anopheles annularis,FALSE,Anopheles annularis,MapVEu,Cambodia,,1
-Homo sapiens,9606,,,,Anopheles arabiensis,FALSE,Anopheles arabiensis,MapVEu,Botswana; Ethiopia; Ghana; Kenya; Madagascar; Namibia; Zambia,,196
-Homo sapiens,9606,,,,Anopheles atroparvus,FALSE,Anopheles atroparvus,MapVEu,United Kingdom,,28
-Homo sapiens,9606,,,,Anopheles bancroftii,FALSE,Anopheles bancroftii,MapVEu,Papua New Guinea,,6
-Homo sapiens,9606,,,,Anopheles claviger,FALSE,Anopheles claviger,MapVEu,United Kingdom,,1
-Homo sapiens,9606,,,,Anopheles coluzzii,FALSE,Anopheles coluzzii,MapVEu,Ghana,,9
-Homo sapiens,9606,,,,Anopheles coustani,FALSE,Anopheles coustani,MapVEu,Ethiopia; Kenya; Madagascar,,229
-Homo sapiens,9606,,,,Anopheles crawfordi,FALSE,Anopheles crawfordi,MapVEu,Cambodia,,1
-Homo sapiens,9606,,,,Anopheles darlingi,FALSE,Anopheles darlingi,MapVEu,Peru,,4416
-Homo sapiens,9606,,,,Anopheles dirus,FALSE,Anopheles dirus,MapVEu,Cambodia,,2
-Homo sapiens,9606,,,,Anopheles farauti,FALSE,Anopheles farauti,MapVEu,Papua New Guinea,,631
-Homo sapiens,9606,,,,Anopheles farauti No. 4,TRUE,Anopheles farauti No. 4,MapVEu,Papua New Guinea,vector_infraspecific,238
-Homo sapiens,9606,,,,Anopheles funestus,FALSE,Anopheles funestus,MapVEu,Central African Republic; Kenya; Madagascar; Zambia; Zimbabwe,,25
-Homo sapiens,9606,,,,Anopheles gambiae,FALSE,Anopheles gambiae,MapVEu,Ghana; Kenya; Zambia,,14
-Homo sapiens,9606,,,,Anopheles hinesorum,FALSE,Anopheles hinesorum,MapVEu,Papua New Guinea,,6
-Homo sapiens,9606,,,,Anopheles koliensis,FALSE,Anopheles koliensis,MapVEu,Papua New Guinea,,39
-Homo sapiens,9606,,,,Anopheles leesoni,FALSE,Anopheles leesoni,MapVEu,Zambia,,1
-Homo sapiens,9606,,,,Anopheles longipalpis,FALSE,Anopheles longipalpis,MapVEu,Botswana,,31
-Homo sapiens,9606,,,,Anopheles longirostris,FALSE,Anopheles longirostris,MapVEu,Papua New Guinea,,75
-Homo sapiens,9606,,,,Anopheles maculipalpis,FALSE,Anopheles maculipalpis,MapVEu,Madagascar,,68
-Homo sapiens,9606,,,,Anopheles maculipennis sensu lato BTLHVDV-2014,TRUE,Anopheles maculipennis sensu lato BTLHVDV-2014,MapVEu,United Kingdom,vector_sensu_lato,281
-Homo sapiens,9606,,,,Anopheles mascarensis,FALSE,Anopheles mascarensis,MapVEu,Madagascar,,23
-Homo sapiens,9606,,,,Anopheles messeae x Anopheles daciae,TRUE,Anopheles messeae x Anopheles daciae,MapVEu,United Kingdom,vector_hybrid,35
-Homo sapiens,9606,,,,Anopheles parensis,FALSE,Anopheles parensis,MapVEu,Botswana,,16
-Homo sapiens,9606,,,,Anopheles pharoensis,FALSE,Anopheles pharoensis,MapVEu,Ethiopia,,2
-Homo sapiens,9606,,,,Anopheles pretoriensis,FALSE,Anopheles pretoriensis,MapVEu,Madagascar,,2
-Homo sapiens,9606,,,,Anopheles punctulatus,FALSE,Anopheles punctulatus,MapVEu,Papua New Guinea,,110
-Homo sapiens,9606,,,,Anopheles quadriannulatus,FALSE,Anopheles quadriannulatus,MapVEu,Botswana; Namibia,,5
-Homo sapiens,9606,,,,Anopheles rampae,FALSE,Anopheles rampae,MapVEu,Cambodia,,1
-Homo sapiens,9606,,,,Anopheles rufipes,FALSE,Anopheles rufipes,MapVEu,Madagascar,,44
-Homo sapiens,9606,,,,Anopheles squamosus,FALSE,Anopheles squamosus,MapVEu,Madagascar,,72
-Homo sapiens,9606,,,,Anopheles vagus,FALSE,Anopheles vagus,MapVEu,Cambodia,,1
-Homo sapiens,9606,,,,Coquillettidia linealis,FALSE,Coquillettidia linealis,MapVEu,Australia,,1
-Homo sapiens,9606,,,,Coquillettidia richiardii,FALSE,Coquillettidia richiardii,MapVEu,United Kingdom,,3
-Homo sapiens,9606,,,,Culex <subgenus>,FALSE,Culex <subgenus>,MapVEu,United Kingdom,,1
-Homo sapiens,9606,,,,Culex annulirostris,FALSE,Culex annulirostris,MapVEu,Australia,,5
-Homo sapiens,9606,,,,Culex cedecei,FALSE,Culex cedecei,MapVEu,United States,,451
-Homo sapiens,9606,,,,Culex globocoxitus,FALSE,Culex globocoxitus,MapVEu,Australia,,1
-Homo sapiens,9606,,,,Culex pipiens molestus,TRUE,Culex pipiens molestus,MapVEu,Australia,vector_infraspecific,2
-Homo sapiens,9606,,,,Culex quinquefasciatus,FALSE,Culex quinquefasciatus,MapVEu,Australia; Grenada,,41
-Homo sapiens,9606,,,,Culiseta annulata,FALSE,Culiseta annulata,MapVEu,United Kingdom,,187
-Homo sapiens,9606,,,,Ochlerotatus camptorhynchus,FALSE,Ochlerotatus camptorhynchus,MapVEu,Australia,,5
-Homo sapiens,9606,,,,Ochlerotatus detritus,FALSE,Ochlerotatus detritus,MapVEu,United Kingdom,,2
-Homo sapiens,9606,,,,funestus group,TRUE,funestus group,MapVEu,Burkina Faso,vector_group,2
-Homo sapiens,9606,,,,gambiae species complex,TRUE,gambiae species complex,MapVEu,Burkina Faso; Central African Republic; Tanzania,vector_complex,18
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Aedes aegypti,FALSE,Aedes aegypti,MapVEu,Grenada,,32
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Aedes notoscriptus,FALSE,Aedes notoscriptus,MapVEu,Australia,,1
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles <genus>,FALSE,Anopheles <genus>,MapVEu,Botswana,,7
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles annularis,FALSE,Anopheles annularis,MapVEu,Cambodia,,1
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles arabiensis,FALSE,Anopheles arabiensis,MapVEu,Botswana; Ethiopia; Ghana; Kenya; Madagascar; Namibia; Zambia,,196
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles atroparvus,FALSE,Anopheles atroparvus,MapVEu,United Kingdom,,28
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles bancroftii,FALSE,Anopheles bancroftii,MapVEu,Papua New Guinea,,6
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles claviger,FALSE,Anopheles claviger,MapVEu,United Kingdom,,1
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles coluzzii,FALSE,Anopheles coluzzii,MapVEu,Ghana,,9
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles coustani,FALSE,Anopheles coustani,MapVEu,Ethiopia; Kenya; Madagascar,,229
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles crawfordi,FALSE,Anopheles crawfordi,MapVEu,Cambodia,,1
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles darlingi,FALSE,Anopheles darlingi,MapVEu,Peru,,4416
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles dirus,FALSE,Anopheles dirus,MapVEu,Cambodia,,2
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles farauti,FALSE,Anopheles farauti,MapVEu,Papua New Guinea,,631
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles farauti No. 4,TRUE,Anopheles farauti No. 4,MapVEu,Papua New Guinea,vector_infraspecific,238
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles funestus,FALSE,Anopheles funestus,MapVEu,Central African Republic; Kenya; Madagascar; Zambia; Zimbabwe,,25
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles gambiae,FALSE,Anopheles gambiae,MapVEu,Ghana; Kenya; Zambia,,14
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles hinesorum,FALSE,Anopheles hinesorum,MapVEu,Papua New Guinea,,6
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles koliensis,FALSE,Anopheles koliensis,MapVEu,Papua New Guinea,,39
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles leesoni,FALSE,Anopheles leesoni,MapVEu,Zambia,,1
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles longipalpis,FALSE,Anopheles longipalpis,MapVEu,Botswana,,31
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles longirostris,FALSE,Anopheles longirostris,MapVEu,Papua New Guinea,,75
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles maculipalpis,FALSE,Anopheles maculipalpis,MapVEu,Madagascar,,68
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles maculipennis sensu lato BTLHVDV-2014,TRUE,Anopheles maculipennis sensu lato BTLHVDV-2014,MapVEu,United Kingdom,vector_sensu_lato,281
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles mascarensis,FALSE,Anopheles mascarensis,MapVEu,Madagascar,,23
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles messeae x Anopheles daciae,TRUE,Anopheles messeae x Anopheles daciae,MapVEu,United Kingdom,vector_hybrid,35
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles parensis,FALSE,Anopheles parensis,MapVEu,Botswana,,16
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles pharoensis,FALSE,Anopheles pharoensis,MapVEu,Ethiopia,,2
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles pretoriensis,FALSE,Anopheles pretoriensis,MapVEu,Madagascar,,2
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles punctulatus,FALSE,Anopheles punctulatus,MapVEu,Papua New Guinea,,110
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles quadriannulatus,FALSE,Anopheles quadriannulatus,MapVEu,Botswana; Namibia,,5
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles rampae,FALSE,Anopheles rampae,MapVEu,Cambodia,,1
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles rufipes,FALSE,Anopheles rufipes,MapVEu,Madagascar,,44
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles squamosus,FALSE,Anopheles squamosus,MapVEu,Madagascar,,72
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Anopheles vagus,FALSE,Anopheles vagus,MapVEu,Cambodia,,1
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Coquillettidia linealis,FALSE,Coquillettidia linealis,MapVEu,Australia,,1
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Coquillettidia richiardii,FALSE,Coquillettidia richiardii,MapVEu,United Kingdom,,3
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Culex <subgenus>,FALSE,Culex <subgenus>,MapVEu,United Kingdom,,1
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Culex annulirostris,FALSE,Culex annulirostris,MapVEu,Australia,,5
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Culex cedecei,FALSE,Culex cedecei,MapVEu,United States,,451
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Culex globocoxitus,FALSE,Culex globocoxitus,MapVEu,Australia,,1
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Culex pipiens molestus,TRUE,Culex pipiens molestus,MapVEu,Australia,vector_infraspecific,2
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Culex quinquefasciatus,FALSE,Culex quinquefasciatus,MapVEu,Australia; Grenada,,41
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Culiseta annulata,FALSE,Culiseta annulata,MapVEu,United Kingdom,,187
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Ochlerotatus camptorhynchus,FALSE,Ochlerotatus camptorhynchus,MapVEu,Australia,,5
+Homo sapiens,9606,Mammalia,Primates,Hominidae,Ochlerotatus detritus,FALSE,Ochlerotatus detritus,MapVEu,United Kingdom,,2
+Homo sapiens,9606,Mammalia,Primates,Hominidae,funestus group,TRUE,funestus group,MapVEu,Burkina Faso,vector_group,2
+Homo sapiens,9606,Mammalia,Primates,Hominidae,gambiae species complex,TRUE,gambiae species complex,MapVEu,Burkina Faso; Central African Republic; Tanzania,vector_complex,18
 Lepus europaeus,9983,mammalia,lagomorpha,leporidae,Anopheles atroparvus,FALSE,Anopheles atroparvus,MapVEu,United Kingdom,,1
 Lepus europaeus,9983,mammalia,lagomorpha,leporidae,Anopheles messeae x Anopheles daciae,TRUE,Anopheles messeae x Anopheles daciae,MapVEu,United Kingdom,vector_hybrid,1
 Lepus europaeus,9983,mammalia,lagomorpha,leporidae,Coquillettidia linealis,FALSE,Coquillettidia linealis,MapVEu,Australia,,1
@@ -201,8 +201,8 @@ Turdus merula,9187,aves,passeriformes,turdidae,Culex pipiens molestus,TRUE,Culex
 Turdus merula,9187,aves,passeriformes,turdidae,Culex quinquefasciatus,FALSE,Culex quinquefasciatus,MapVEu,Australia,,6
 Turdus merula,9187,aves,passeriformes,turdidae,Culiseta morsitans,FALSE,Culiseta morsitans,MapVEu,United Kingdom,,2
 Vulpes vulpes,9627,mammalia,carnivora,canidae,Ochlerotatus camptorhynchus,FALSE,Ochlerotatus camptorhynchus,MapVEu,Australia,,2
-dasypus novemcinctus,9361,,,,Ochlerotatus infirmatus,FALSE,Ochlerotatus infirmatus,MapVEu,United States,,2
-iguana iguana,8517,,,,Aedes aegypti,FALSE,Aedes aegypti,MapVEu,Grenada,,32
-iguana iguana,8517,,,,Culex quinquefasciatus,FALSE,Culex quinquefasciatus,MapVEu,Grenada,,37
-oryzomys palustris,37020,,,,Culex cedecei,FALSE,Culex cedecei,MapVEu,United States,,451
-peromyscus gossypinus,42411,,,,Culex cedecei,FALSE,Culex cedecei,MapVEu,United States,,451
+dasypus novemcinctus,9361,Mammalia,Cingulata,Dasypodidae,Ochlerotatus infirmatus,FALSE,Ochlerotatus infirmatus,MapVEu,United States,,2
+iguana iguana,8517,Reptilia,Squamata,Iguanidae,Aedes aegypti,FALSE,Aedes aegypti,MapVEu,Grenada,,32
+iguana iguana,8517,Reptilia,Squamata,Iguanidae,Culex quinquefasciatus,FALSE,Culex quinquefasciatus,MapVEu,Grenada,,37
+oryzomys palustris,37020,Mammalia,Rodentia,Cricetidae,Culex cedecei,FALSE,Culex cedecei,MapVEu,United States,,451
+peromyscus gossypinus,42411,Mammalia,Rodentia,Cricetidae,Culex cedecei,FALSE,Culex cedecei,MapVEu,United States,,451
