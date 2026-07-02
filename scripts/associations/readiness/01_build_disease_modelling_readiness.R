@@ -408,6 +408,21 @@ join_status_cols <- c(
   "sdm_join_status"
 )
 
+readiness_decision_rules <- tribble(
+  ~readiness_rule_id, ~readiness_blocker, ~recommended_next_action,
+  "scope_not_include", "scope_not_include", "review_or_defer_scope",
+  "transmission_rule_not_reviewed", "transmission_rule_not_reviewed",
+  "review_transmission_rule",
+  "missing_direct_vector_evidence", "missing_direct_vector_evidence",
+  "curate_direct_vector_evidence",
+  "missing_required_host_sdm", "missing_required_host_sdm", "find_or_build_host_sdm",
+  "missing_required_vector_sdm", "missing_required_vector_sdm",
+  "find_or_build_vector_sdm",
+  "missing_role_evidence", "missing_role_evidence", "curate_role_evidence",
+  "missing_country_evidence", "missing_country_evidence", "review_country_evidence",
+  "ready_for_model_spec_review", "none", "ready_for_model_spec_review"
+)
+
 readiness <- readiness %>%
   add_missing_count_cols(count_cols) %>%
   add_missing_flag_cols(flag_cols) %>%
@@ -474,7 +489,9 @@ readiness <- readiness %>%
         "sdm_not_required_or_not_model_ready",
       TRUE ~ "required_sdms_available"
     ),
-    readiness_blocker = case_when(
+    # First matching rule wins: scope/review blockers intentionally precede
+    # downstream evidence, SDM, role, and country gaps.
+    readiness_rule_id = case_when(
       modelling_scope_status != "include" ~ "scope_not_include",
       transmission_rule_review_status != "reviewed" ~ "transmission_rule_not_reviewed",
       vectored_status %in% c("vectored", "mixed_or_indirect") & !has_direct_vector_evidence ~
@@ -484,22 +501,17 @@ readiness <- readiness %>%
         "missing_required_vector_sdm",
       !has_any_role_evidence_or_assignment ~ "missing_role_evidence",
       !has_who_don_focal_evidence & !has_genbank_country_evidence ~ "missing_country_evidence",
-      TRUE ~ "none"
-    ),
-    recommended_next_action = case_when(
-      modelling_scope_status != "include" ~ "review_or_defer_scope",
-      transmission_rule_review_status != "reviewed" ~ "review_transmission_rule",
-      vectored_status %in% c("vectored", "mixed_or_indirect") & !has_direct_vector_evidence ~
-        "curate_direct_vector_evidence",
-      host_sdm_required & host_sdm_species_available == 0 ~ "find_or_build_host_sdm",
-      vector_sdm_required & has_direct_vector_evidence & vector_sdm_species_available == 0 ~
-        "find_or_build_vector_sdm",
-      !has_any_role_evidence_or_assignment ~ "curate_role_evidence",
-      !has_who_don_focal_evidence & !has_genbank_country_evidence ~ "review_country_evidence",
       TRUE ~ "ready_for_model_spec_review"
     )
   ) %>%
-  select(-host_sdm_required, -vector_sdm_required, -host_sdm_optional, -vector_sdm_optional)
+  left_join(readiness_decision_rules, by = "readiness_rule_id") %>%
+  select(
+    -host_sdm_required,
+    -vector_sdm_required,
+    -host_sdm_optional,
+    -vector_sdm_optional,
+    -readiness_rule_id
+  )
 
 # ------------------------------------------------------------------------------|
 #      Output Ordering And Validation -----------------------------------------|
